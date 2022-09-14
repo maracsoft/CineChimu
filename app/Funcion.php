@@ -23,9 +23,15 @@ class Funcion extends Model
     }
 
 
+    function getFechaEscritaSinAño(){
+      return Fecha::formatoFechaEscritaSinAño($this->fechaHoraFuncion);
+    }
+
     function getFechaEscrita(){
       return Fecha::formatoFechaEscrita($this->fechaHoraFuncion);
     }
+
+    
     function getHora(){
       return Fecha::formatoSoloHora($this->fechaHoraFuncion);
 
@@ -56,7 +62,7 @@ class Funcion extends Model
     }
 
     function getFechaHoraCreacion(){
-      return Fecha::formatoFechaHoraParaVistas($this->fechaHoraCreacion);
+      return Fecha::formatoFechaHoraEscrita($this->fechaHoraCreacion);
     }
 
 

@@ -50,7 +50,7 @@
                 {{$funcion->getPelicula()->nombre}}
               </td>
               <td>
-                {{$funcion->getFechaHora()}}
+                {{$funcion->getFechaEscrita()}} {{$funcion->getHora()}}
               </td>
               <td>
                 {{$funcion->precioEntrada}}

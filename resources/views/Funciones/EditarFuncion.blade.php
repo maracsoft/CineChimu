@@ -51,57 +51,55 @@
         <div class="card-body">
 
 
-            <div class="row  internalPadding-1">
-                <div  class="col-2">
-                    <label for="codTipoPersoneria" id="lvlProyecto" class="">
-                        Sala:
-                    </label>
-                </div>
+            <div class="row ">
+
                 <div class="col-4">
-                    <select class="form-control"  id="codTipoPersoneria" name="codTipoPersoneria">
-                        <option value="-1">-- Sala --</option>
-                        @foreach ($listaSalas as $sala)
-                          <option value="{{$sala->getId()}}" {{$sala->getId()==$funcion->codSala ? 'selected':''}}>
-                            {{$sala->nombre}}
-                          </option>
-                        @endforeach
-
-                    </select>
-                </div>
-
-                <div class="col-2">
                     <label for="codTipoPersoneria" id="lvlProyecto" class="">
                         Película:
                     </label>
-                </div>
-                <div class="col-4">
-                  <select class="form-control select2 select2-hidden-accessible selectpicker" data-select2-id="1" tabindex="-1" aria-hidden="true" id="codEmpleadoBuscar" name="codEmpleadoBuscar" data-live-search="true">
+                    <select class="form-control select2 select2-hidden-accessible selectpicker" data-select2-id="1" tabindex="-1" aria-hidden="true" id="codEmpleadoBuscar" name="codEmpleadoBuscar" data-live-search="true">
                       <option value="0">- Seleccione Colaborador -</option>          
                       @foreach($listaPeliculas as $pelicula)
                         <option value="{{$pelicula->getId()}}" {{$pelicula->getId()==$funcion->codPelicula ? 'selected':''}}>
                           {{$pelicula->nombre}}
                         </option>                                 
                       @endforeach
-                  </select> 
+                    </select> 
                 </div>
+
+                <div class="col-2">
+                    <label for="codTipoPersoneria" id="lvlProyecto" class="">
+                        Sala:
+                    </label>
+                    <select class="form-control"  id="codTipoPersoneria" name="codTipoPersoneria">
+                      <option value="-1">-- Sala --</option>
+                      @foreach ($listaSalas as $sala)
+                        <option value="{{$sala->getId()}}" {{$sala->getId()==$funcion->codSala ? 'selected':''}}>
+                          {{$sala->nombre}}
+                        </option>
+                      @endforeach
+
+                    </select>
+                </div>
+                
+
+               
                
                 
   
-                <div  class="col-2">
+                <div class="col-2">
                   <label for="" id="">
                     Precio entrada  
                   </label>
-                </div>
-                <div class="col-2">
-                    <input type="number" class="form-control" name="precioEntrada" id="precioEntrada" value="{{$funcion->precioEntrada}}">
-                </div>
+                  <input type="number" class="form-control" name="precioEntrada" id="precioEntrada" value="{{$funcion->precioEntrada}}">
 
-                <div  class="col-2">
-                  <label for="" id="">
-                    Fecha y hora  
-                  </label>
                 </div>
-                <div class="col-2 d-flex">  
+               
+
+                <div class="col-2">
+                  <label for="" id="">
+                    Fecha
+                  </label>
                   <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
                     {{-- INPUT PARA LA FECHA --}}
                     <input type="text" style="text-align: center" class="form-control" name="fechaFuncion" id="fechaFuncion" value="{{$funcion->getFechaFuncion()}}" style="font-size: 10pt;">
@@ -114,46 +112,45 @@
                     </div>
                   </div>
                 </div>
+                
 
-                <div  class="col-2">
+                <div class="col-2">
                   <label for="" id="">
                     Hora  
                   </label>
-                </div>
-                <div class="col-2">
                   <input type="text" style="text-align: center" class="form-control" name="horaFuncion" id="horaFuncion" value="{{$funcion->getHoraFuncion()}}" style="font-size: 10pt;">
+                
                 </div>
+                 
 
-
-                <div  class="col-2">
+                <div class="col-3">
                   <label for="" id="">
                     # Entradas para venta virtual  
                   </label>
+                  <input type="number" class="form-control" name="cantidadEntradasVirtuales" id="cantidadEntradasVirtuales" value="{{$funcion->cantidadEntradasVirtuales}}">
+                
                 </div>
-                <div class="col-2">
-                    <input type="number" class="form-control" name="cantidadEntradasVirtuales" id="cantidadEntradasVirtuales" value="{{$funcion->cantidadEntradasVirtuales}}">
-                </div>
+                
 
-                <div  class="col-2">
-                  <label for="" id="">
-                    # Entradas Vendidas
-                  </label>
-                </div>
-                <div class="col-2">
-                    <input type="text" class="form-control" readonly  value="{{$funcion->cantidadEntradasVendidas}}/{{$funcion->cantidadEntradasVirtuales}}">
-                </div>
+                
 
-                <div  class="col-2">
+                <div class="col-3">
                   <label for="" id="">
                     # Entradas Venta presencial
                   </label>
+                  <input type="number" class="form-control" name="cantidadEntradasVentaPresencial" id="cantidadEntradasVentaPresencial" value="{{$funcion->cantidadEntradasVentaPresencial}}">
+                
                 </div>
-                <div class="col-2">
-                    <input type="number" class="form-control" name="cantidadEntradasVentaPresencial" id="cantidadEntradasVentaPresencial" value="{{$funcion->cantidadEntradasVentaPresencial}}">
+                
+                <div class="col-3">
+                  <label for="" id="">
+                    # Entradas Vendidas
+                  </label>
+                  <input type="text" class="form-control" readonly  value="{{$funcion->cantidadEntradasVendidas}}/{{$funcion->cantidadEntradasVirtuales}}">
                 </div>
 
 
-                <div  class="col-12">
+                <div class="col-12">
                   <label for="">
                     Comentario:
                   </label>

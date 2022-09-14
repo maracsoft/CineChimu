@@ -47,9 +47,23 @@ class Fecha
       return date('d/m/Y H:i:s', strtotime($fecha));
     }
 
+
+
+    public static function formatoFechaHoraEscrita($fecha){
+      return Fecha::formatoFechaEscrita($fecha)." a las ". Fecha::formatoSoloHora($fecha);
+    }
+
+
     public static function formatoFechaEscrita($fecha){
+      return Fecha::traducirAEspañol(date('l d \d\e F Y', strtotime($fecha)));
+    }
+
+    public static function formatoFechaEscritaSinAño($fecha){
       return Fecha::traducirAEspañol(date('l d \d\e F', strtotime($fecha)));
     }
+
+    
+
     public static function formatoSoloHora($fecha){
 
       return date('H:i a', strtotime($fecha));
