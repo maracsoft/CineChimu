@@ -1,0 +1,25 @@
+
+Feats específicas:
+  ☐ Pagina principal de listar peliculas de forma linda
+  ☐ Modelo de pasarela de pago
+
+CRUDS Primordiales:
+  ☐ Pelicula (solo programador)
+  ☐ Usuario (registro abierto)
+  ☐ Función (programarla pues XD)
+  
+
+CRUDS Secundarios:
+  ☐ Sala
+  ☐ Rol
+  ☐ Visualizador logeos
+  ☐ Visualizador errores
+  
+
+Preguntas para hacer a Silvia:
+  ✔ Cada entrada que tenga el nombre de la persona que la usará? o que sea opcional eso  SÍ, OPCIONAL @done(13-09-22 13:18)
+  ☐ Cuando estén validando las entradas en puerta, que se haga como ahora dando nombre y leyendo la lista o con QRs?
+
+
+
+
