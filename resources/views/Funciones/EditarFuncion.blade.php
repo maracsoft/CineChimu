@@ -1,7 +1,7 @@
 @extends('Layout.Plantilla')
 
 @section('titulo')
-  Editar Unidad Productiva
+  Editar Función
 @endsection
 
 @section('tiempoEspera')
@@ -19,8 +19,8 @@
 
 @include('Layout.MensajeEmergenteDatos')
 
-<form method = "POST" action = "{{route('Funciones.Actualizar')}}" id="frmUnidadProd" name="frmUnidadProd"  enctype="multipart/form-data">
-    <input type="hidden" name="codUnidadProductiva" value="">
+<form method = "POST" action = "{{route('Funciones.Actualizar')}}" id="formFuncion" name="formFuncion"  enctype="multipart/form-data">
+    <input type="hidden" name="codFuncion" value="{{$funcion->codFuncion}}">
     @csrf
 
     <div class="card mx-2">
@@ -54,11 +54,11 @@
             <div class="row ">
 
                 <div class="col-4">
-                    <label for="codTipoPersoneria" id="lvlProyecto" class="">
+                    <label for="codPelicula" class="">
                         Película:
                     </label>
-                    <select class="form-control select2 select2-hidden-accessible selectpicker" data-select2-id="1" tabindex="-1" aria-hidden="true" id="codEmpleadoBuscar" name="codEmpleadoBuscar" data-live-search="true">
-                      <option value="0">- Seleccione Colaborador -</option>          
+                    <select class="form-control select2 select2-hidden-accessible selectpicker" data-select2-id="1" tabindex="-1" aria-hidden="true" id="codPelicula" name="codPelicula" data-live-search="true">
+                      <option value="-1">- Seleccione Película -</option>          
                       @foreach($listaPeliculas as $pelicula)
                         <option value="{{$pelicula->getId()}}" {{$pelicula->getId()==$funcion->codPelicula ? 'selected':''}}>
                           {{$pelicula->nombre}}
@@ -68,10 +68,10 @@
                 </div>
 
                 <div class="col-2">
-                    <label for="codTipoPersoneria" id="lvlProyecto" class="">
+                    <label for="codSala" class="">
                         Sala:
                     </label>
-                    <select class="form-control"  id="codTipoPersoneria" name="codTipoPersoneria">
+                    <select class="form-control"  id="codSala" name="codSala">
                       <option value="-1">-- Sala --</option>
                       @foreach ($listaSalas as $sala)
                         <option value="{{$sala->getId()}}" {{$sala->getId()==$funcion->codSala ? 'selected':''}}>
@@ -98,11 +98,11 @@
 
                 <div class="col-2">
                   <label for="" id="">
-                    Fecha
+                    Fecha función
                   </label>
                   <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
                     {{-- INPUT PARA LA FECHA --}}
-                    <input type="text" style="text-align: center" class="form-control" name="fechaFuncion" id="fechaFuncion" value="{{$funcion->getFechaFuncion()}}" style="font-size: 10pt;">
+                    <input type="text" style="text-align: center" class="form-control" name="fechaFuncion" id="fechaFuncion" value="{{$funcion->getFechaFuncion()}}">
                     
 
                     <div class="input-group-btn">
@@ -116,10 +116,15 @@
 
                 <div class="col-2">
                   <label for="" id="">
-                    Hora  
+                    Hora y minuto
                   </label>
-                  <input type="text" style="text-align: center" class="form-control" name="horaFuncion" id="horaFuncion" value="{{$funcion->getHoraFuncion()}}" style="font-size: 10pt;">
-                
+                  <div class="d-flex flex-row">
+                    <input min="0" max="23" placeholder="23" type="number" class="form-control text-center" name="horaFuncion" id="horaFuncion" value="{{$funcion->getHora_hora()}}" >
+                    
+                    <input min="0" max="59" placeholder="59" type="number" class="form-control text-center" name="minutosFuncion" id="minutosFuncion" value="{{$funcion->getHora_minutos()}}" >
+                  
+                  </div>
+                  
                 </div>
                  
 
@@ -154,7 +159,7 @@
                   <label for="">
                     Comentario:
                   </label>
-                  <textarea class="form-control" name="" id="" cols="30" rows="2"></textarea>
+                  <textarea name="comentario" id="comentario" class="form-control" name="" id="" cols="30" rows="2">{{$funcion->comentario}}</textarea>
                 </div>
                 
  
@@ -380,11 +385,53 @@
 @section('script')
 
 <script type="application/javascript">
-    //se ejecuta cada vez que escogewmos un file
-       
-   
+  
 
 
+    function clickGuardar(){
+        msj = validarFormulario();
+        if(msj!=''){
+            alerta(msj);
+            return;
+        }
+        
+        confirmarConMensaje('Confirmacion','¿Desea actualizar la funcion?','warning',ejecutarSubmit);
+    }
+
+    function ejecutarSubmit(){
+
+        document.formFuncion.submit(); // enviamos el formulario	  
+
+    }
+
+ 
+    function validarFormulario(){
+        limpiarEstilos(['codPelicula','codSala','precioEntrada','cantidadEntradasVirtuales','cantidadEntradasVentaPresencial','fechaFuncion','horaFuncion','minutosFuncion']);
+        msj = "";
+
+
+        msj = validarSelect(msj,'codPelicula',"-1","Película")
+        msj = validarSelect(msj,'codSala',"-1","Sala")
+        
+        msj = validarPositividadYNulidad(msj,'precioEntrada','Precio de entrada');
+        msj = validarPositividadYNulidad(msj,'cantidadEntradasVirtuales','Cantidad de entradas virtuales');
+        msj = validarPositividadYNulidad(msj,'cantidadEntradasVentaPresencial','Cantidad de entradas destinadas a venta presencial');
+
+
+        msj = validarNulidad(msj,'fechaFuncion','Fecha de la función');
+        msj = validarNulidad(msj,'horaFuncion','Hora de la función');
+        msj = validarNulidad(msj,'minutosFuncion','Hora de la función');
+        
+
+        msj = validarEntreRangoNumeros(msj,'horaFuncion',0,23,'Hora de la función')
+        msj = validarEntreRangoNumeros(msj,'minutosFuncion',0,59,'Minutos de la hora de la función')
+        
+        
+         
+        return msj;
+
+    }
+    
 
 
 </script>

@@ -34,8 +34,18 @@ class Funcion extends Model
     
     function getHora(){
       return Fecha::formatoSoloHora($this->fechaHoraFuncion);
+    }
+
+    function getHora_hora(){
+      return Fecha::formatoSoloHora_hora($this->fechaHoraFuncion);
+      
+    }
+    function getHora_minutos(){
+      return Fecha::formatoSoloHora_minuto($this->fechaHoraFuncion);
+      
 
     }
+
 
     function getAforo(){
       return $this->cantidadEntradasVirtuales + $this->cantidadEntradasVentaPresencial;

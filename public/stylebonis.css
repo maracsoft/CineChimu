@@ -2,7 +2,10 @@
 body{
 	margin:0;
 	color:#212431;
-	background:url("img/FondoLogin.jpg") no-repeat center;
+	background:url("img/CineVacio.jpg") ;
+  background-repeat: no-repeat;
+  background-size:cover;
+
 	font:600 16px/18px 'Open Sans',sans-serif;
 }
 *,:after,:before{box-sizing:border-box}
@@ -24,7 +27,7 @@ a{color:inherit;text-decoration:none}
 	height:100%;
 	position:absolute;
 	padding:90px 70px 50px 70px;
-	background:rgba(49,169,101,0.9);
+	background:rgb(35 170 191)
 }
 .login-html .sign-in-htm,
 .login-html .sign-up-htm{
@@ -58,7 +61,7 @@ a{color:inherit;text-decoration:none}
 .login-html .sign-in:checked + .tab,
 .login-html .sign-up:checked + .tab{
 	color:#fff;
-	border-color:#31a964;
+	border-color:#858cb873;
 }
 .login-form{
 	min-height:345px;
@@ -73,7 +76,7 @@ a{color:inherit;text-decoration:none}
 .login-form .group .input,
 .login-form .group .button{
 	width:100%;
-	color:#fff;
+	color:rgb(36, 36, 36);
 	display:block;
 }
 .login-form .group .input,
@@ -81,7 +84,7 @@ a{color:inherit;text-decoration:none}
 	border:none;
 	padding:15px 20px;
 	border-radius:25px;
-	background:rgba(0, 0, 0, 0.1);
+	background:rgb(255 255 255 / 75%)
 }
 .login-form .group input[data-type="password"]{
 	
@@ -92,7 +95,7 @@ a{color:inherit;text-decoration:none}
 	font-size:12px;
 }
 .login-form .group .button{
-	background:#31a964;
+	background:#3138a9;
 }
 .login-form .group label .icon{
 	width:15px;

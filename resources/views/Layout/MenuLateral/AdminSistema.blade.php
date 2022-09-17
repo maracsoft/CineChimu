@@ -82,7 +82,7 @@
       
 
       <li class="nav-item">
-        <a href="{{route('Funciones.VerCartelera')}}" class="nav-link">
+        <a href="{{route('Ventas.VerCartelera')}}" class="nav-link">
           <i class="far fa-address-card nav-icon"></i>
           <p>Cartelera</p>
         </a>

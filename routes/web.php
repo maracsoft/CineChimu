@@ -1,5 +1,6 @@
 <?php
 
+use App\EstadoIntencion;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,15 @@ Route::get('/login', 'UserController@verLogin')->name('user.verLogin'); //para d
 Route::post('/ingresar', 'UserController@logearse')->name('user.logearse'); //post
 
 Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesion');
+
+
+Route::get('/probandoCosas',function(){
+  return EstadoIntencion::getCodEstado('Creado');
+
+});
+
+
+
 
 
 Route::group(['middleware'=>"ValidarSesion"],function()
@@ -59,9 +69,18 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     
     /* VENTAS */
 
-    Route::get('/Cartelera','FuncionController@VerCartelera')->name('Funciones.VerCartelera');
-    Route::get('/Comprar/{id}','FuncionController@VerComprar')->name('Funciones.VerComprar');
+    Route::get('/Cartelera','VentasController@VerCartelera')->name('Ventas.VerCartelera');
+    Route::get('/Comprar/{id}','VentasController@VerComprar')->name('Ventas.VerComprar');
 
+
+    Route::post('/IntencionPago/Guardar/','VentasController@guardarIntencion')->name('Ventas.GuardarIntencion');
+    Route::get('/IntencionPago/{codIntencion}/VerPagar','VentasController@VerPagar')->name('Ventas.VerPagar'); /* En esta vista se debería mostrar la pasarela incrustada */
+    
+    Route::post('/IntencionPago/EfectuarPago','VentasController@EfectuarPago')->name('Ventas.EfectuarPago');
+    
+
+    //para compra ya realizada
+    Route::get('/IntencionPago/VerMiCompra/{codIntencion}','VentasController@VerMiCompra')->name('Ventas.VerMiCompra');
 
     
 });

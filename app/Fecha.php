@@ -65,9 +65,16 @@ class Fecha
     
 
     public static function formatoSoloHora($fecha){
-
       return date('H:i a', strtotime($fecha));
     }
+    public static function formatoSoloHora_hora($fecha){
+      return date('H', strtotime($fecha));
+    }
+    public static function formatoSoloHora_minuto($fecha){
+      return date('i', strtotime($fecha));
+    }
+    
+    
 
 
     public static function traducirAEspañol($string_fecha){
@@ -147,7 +154,7 @@ class Fecha
         $fechaMeta = strtotime($fechaMetaString);
  
     
-        Debug::mensajeSimple($proyecto->fechaInicio." () ".$proyecto->fechaFinalizacion);
+        //Debug::mensajeSimple($proyecto->fechaInicio." () ".$proyecto->fechaFinalizacion);
         
 
         return ($fechaMeta <= $fechaMaxima && $fechaMeta >= $fechaMinima);

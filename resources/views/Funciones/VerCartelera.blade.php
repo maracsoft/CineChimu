@@ -22,7 +22,7 @@
     @endphp
 
 
-    <div class="col-6">
+    <div class="col-12 col-md-6">
       
       <div class="card">
         <div class="card-header text-left">
@@ -63,7 +63,7 @@
               
               
 
-              <a href="{{route("Funciones.VerComprar",$funcion->getId())}}" class="btn btn-success  btn-icon icon-left">
+              <a href="{{route("Ventas.VerComprar",$funcion->getId())}}" class="btn btn-success  btn-icon icon-left">
                 Comprar
                 
               </a>

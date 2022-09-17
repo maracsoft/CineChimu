@@ -2,7 +2,7 @@
 <html>
 <head>
 	 <meta charset="utf-8"/>
-     <title>CEDEPAS Norte | Login</title>
+     <title>CINE CHIMÚ | Login</title>
 	 <link rel="shortcut icon" href="/img/LogoCedepas.png" type="image/png">
   
      <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -59,46 +59,15 @@
 						<input id="ingresar" name="ingresar" type="submit" class="button" value="Ingresar">
 					</div>
 					<div class="hr"></div>
-					{{-- <div class="foot-lnk">
-						<a href="#forgot">Forgot Password?</a>
-						<
-					</div> --}}
-					
+				 
 
 				</div>
 
-				{{-- Los registros son desde adentro, no necesitamos --}}
-				{{-- <div class="sign-up-htm">
-					<div class="group">
-						<label for="user" class="label">Username</label>
-						<input id="user" type="text" class="input">
-					</div>
-					<div class="group">
-						<label for="pass" class="label">Password</label>
-						<input id="pass" type="password" class="input" data-type="password">
-					</div>
-					<div class="group">
-						<label for="pass" class="label">Repeat Password</label>
-						<input id="pass" type="password" class="input" data-type="password">
-					</div>
-					<div class="group">
-						<label for="pass" class="label">Email Address</label>
-						<input id="pass" type="text" class="input">
-					</div>
-					<div class="group">
-						<input type="submit" class="button" value="Sign Up">
-					</div>
-					<div class="hr"></div>
-					<div class="foot-lnk">
-						<label for="tab-1">Already Member?</a>
-					</div>
-				</div>
-				--}}
+				 
 	
 			</div>
 			<div style="text-align: center">
-				<img src="/img/LogoCedepas.png"
-				width="200" height="140" >
+				<img src="/img/CineChimu.png" height="140" >
 			</div>
 		</div>
 		

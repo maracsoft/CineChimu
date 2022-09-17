@@ -280,6 +280,31 @@ function validarSelect(msjError,id,indiceSeleccionNula,nombreReferencial){
 }
 
 
+function validarEntreRangoNumeros(msjError,id,valorMinimoPermitido,valorMaximoPermitido,nombreReferencial){
+    mensaje = "";
+
+    var valor = parseInt(document.getElementById(id).value);
+
+     
+    
+    if(valor > valorMaximoPermitido){
+      ponerEnRojo(id);
+      mensaje = "El campo '"+ nombreReferencial + "' debe ser menor o igual a " + valorMaximoPermitido;
+    }
+    if(valor < valorMinimoPermitido){
+      ponerEnRojo(id);
+      mensaje = "El campo '"+ nombreReferencial + "' debe ser mayor o igual a " + valorMinimoPermitido;
+    }
+    
+        
+    if(msjError!="") //significa que ya hay un error en el flujo de validaciones
+        return msjError; 
+    else //si no hay ningun error, retorna el mensaje generado en esta funcion (el cual será nulo si no hubo error)
+        return mensaje;
+}
+
+
+
 /*  */
 function validarCodigoPresupuestal(msjError,id, codPresupProyecto,nombreReferencial){
     mensaje = "";
