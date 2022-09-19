@@ -1,13 +1,17 @@
 
+
+
 Feats específicas:
   ☐ Pagina principal de listar peliculas de forma linda
   ☐ Modelo de pasarela de pago
 
 CRUDS Primordiales:
-  ☐ Pelicula (solo programador)
+  ✔ Pelicula (solo programador) @done(19-09-22 13:24)
   ☐ Usuario (registro abierto)
-  ☐ Función (programarla pues XD)
-  
+  ✔ Función (programarla pues XD) @done(19-09-22 13:24)
+  ☐ Producto
+  ☐ Ingreso almacen
+  ☐ Venta
 
 CRUDS Secundarios:
   ☐ Sala

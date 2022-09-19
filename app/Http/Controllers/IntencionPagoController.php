@@ -13,13 +13,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class VentasController extends Controller
+class IntencionPagoController extends Controller
 {
     
   public function VerCartelera(){
 
     $fechaActual = Carbon::now();
-    $listaFunciones = Funcion::where('fechaHoraFuncion','>',$fechaActual)->paginate(20);
+
+    /* Solo lista las que aun no suceden */
+    $listaFunciones = Funcion::where('fechaHoraFuncion','>',$fechaActual)
+        ->orderBy('fechaHoraFuncion','ASC')
+        ->paginate(20);
 
     return view('Funciones.VerCartelera',compact('listaFunciones'));
 
@@ -51,7 +55,6 @@ class VentasController extends Controller
         $vectorNombres = [];
         for ($i=1; $i <= $intencion->cantidadEntradas ; $i++) { 
           $vectorNombres[] = $request->get('nombrePersona_'.$i);
-          
         }
 
         $intencion->arrayNombres = join(',',$vectorNombres);
@@ -62,7 +65,7 @@ class VentasController extends Controller
         $intencion->save();
         db::commit();
 
-        return redirect()->route('Ventas.VerPagar',$intencion->getId());
+        return redirect()->route('IntencionPago.VerPagar',$intencion->getId());
 
       } catch (\Throwable $th) {
         db::rollBack();
@@ -122,7 +125,7 @@ class VentasController extends Controller
 
         db::commit();
 
-        return redirect()->route('Ventas.VerMiCompra',$intencion->getId())->with('datos',"¡Se ha completado exitosamente la compra!"); 
+        return redirect()->route('IntencionPago.VerMiCompra',$intencion->getId())->with('datos',"¡Se ha completado exitosamente la compra!"); 
 
       } catch (\Throwable $th) {
         throw $th;

@@ -94,7 +94,7 @@
                     </div>
                     
                                         
-                    <form method = "POST" action = "{{route('Ventas.GuardarIntencion')}}" id="formFuncion" name="formFuncion"  enctype="multipart/form-data">
+                    <form method = "POST" action = "{{route('IntencionPago.GuardarIntencion')}}" id="formFuncion" name="formFuncion"  enctype="multipart/form-data">
                       <input type="hidden" name="codFuncion" value="{{$funcion->codFuncion}}">
                       <input type="hidden" id="cantidadEntradas" name="cantidadEntradas" value="1">
                       @csrf

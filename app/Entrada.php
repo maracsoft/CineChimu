@@ -22,9 +22,12 @@ class Entrada extends Model
       return Usuario::findOrFail($this->codUsuarioComprador);
 
     }
+    public function getIntencionCompra(){
+      return IntencionCompra::findOrFail($this->codIntencion);
+    }
 
     function getFechaHoraCompra(){
-      return Fecha::formatoFechaHoraParaVistas($this->fechaHoraCompra);
+      return Fecha::formatoFechaHoraEscrita($this->getIntencionCompra()->fechaHoraCreacion);
     }
 
 }

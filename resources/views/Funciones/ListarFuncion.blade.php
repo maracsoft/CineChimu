@@ -25,7 +25,7 @@
     
     @include('Layout.MensajeEmergenteDatos')
     
-    <table class="table table-sm" style="font-size: 10pt;  ">
+    <table class="table table-sm table-hover" style="font-size: 10pt;  ">
         <thead class="thead-dark">
           <tr>
             <th>Cod</th>
@@ -42,7 +42,7 @@
         <tbody>
         
         @foreach($listaFunciones as $funcion)
-          <tr>
+          <tr class="funcion_row {{$funcion->rowColor()}}">
               <td>
                 {{$funcion->codFuncion}}
               </td>
@@ -87,4 +87,17 @@
   
 </script>
 
+@endsection
+
+@section('estilos')
+<style>
+  .funcion_row.pendiente{
+    background-color: rgb(210, 213, 221);
+  } 
+  .funcion_row{
+    background-color: rgb(199, 171, 171);
+  }
+
+
+</style>
 @endsection

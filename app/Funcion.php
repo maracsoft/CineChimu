@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Cliente;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Facades\Auth;
 class Funcion extends Model
 {
@@ -75,5 +77,18 @@ class Funcion extends Model
       return Fecha::formatoFechaHoraEscrita($this->fechaHoraCreacion);
     }
 
+
+
+    function yaPaso(){
+
+      $fechaActual = new DateTime();
+      $fechaHoraFuncion = new DateTime($this->fechaHoraFuncion);
+      
+      return $fechaActual < $fechaHoraFuncion;
+
+    }
+    function rowColor(){
+      return $this->yaPaso() ? "pendiente" : '';
+    }
 
 }

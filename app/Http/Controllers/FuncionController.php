@@ -20,7 +20,7 @@ class FuncionController extends Controller
   /* Renders the view */
   public function ListarFunciones(Request $request){
 
-    $listaFunciones = Funcion::paginate(50);
+    $listaFunciones = Funcion::orderBy('fechaHoraFuncion','DESC')->paginate(50);
 
 
     return view('Funciones.ListarFuncion',compact('listaFunciones'));

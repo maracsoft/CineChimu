@@ -220,8 +220,8 @@
                                 </td>
                                 <td>
                                     {{$entrada->getUsuarioComprador()->getNombreCompleto()}}
-                                    <span>  
-                                      {{$entrada->getFechaHoraCompra()}}
+                                    <span class="fontSize10">  
+                                      ({{$entrada->getFechaHoraCompra()}})
                                     </span>
                                 </td>
                                 <td>

@@ -31,7 +31,7 @@
               </h2>
              
             </div>
-            <form name="formPago" method="POST" action="{{route('Ventas.EfectuarPago')}}">
+            <form name="formPago" method="POST" action="{{route('IntencionPago.EfectuarPago')}}">
               @csrf
               <input type="hidden" name="codIntencion" id="codIntencion" value="{{$intencion->codIntencion}}">
               <div class="card-body row">

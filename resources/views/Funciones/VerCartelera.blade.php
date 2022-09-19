@@ -15,73 +15,73 @@
   @include('Layout.MensajeEmergenteDatos')
   
   <div class="row">
-    
-  @foreach($listaFunciones as $funcion)
-    @php
-      $pelicula = $funcion->getPelicula();
-    @endphp
-
-
-    <div class="col-12 col-md-6">
       
-      <div class="card">
-        <div class="card-header text-left">
-          <h2>
-            {{$pelicula->nombre}}
-          </h2>
-        </div>
-        <div class="card-body row">
-          <div class="col">
-            <img src="{{$pelicula->urlFoto}}"  class="poster-peli" alt="">
+    @foreach($listaFunciones as $funcion)
+      @php
+        $pelicula = $funcion->getPelicula();
+      @endphp
+
+
+      <div class="col-12 col-md-6">
+        
+        <div class="card">
+          <div class="card-header text-left">
+            <h2>
+              {{$pelicula->nombre}}
+            </h2>
           </div>
-          <div class="col d-flex flex-column">
-            <div class="text-justify">
-              {{$pelicula->descripcion}}
+          <div class="card-body row">
+            <div class="col">
+              <img src="{{$pelicula->urlFoto}}"  class="poster-peli" alt="">
             </div>
-            <div class="mt-auto">
-              
-              <div>
-                <span class="">
-                  {{$funcion->getFechaEscrita()}}
-                </span>
+            <div class="col d-flex flex-column">
+              <div class="text-justify">
+                {{$pelicula->descripcion}}
               </div>
-              <div>
-                <span>
-                  {{$funcion->getHora()}}
-                </span>
-              </div>
-              
-              <br>
-              {{$funcion->getSala()->nombre}}
-              
-              
-              
-              <h2>
-                S/ {{$funcion->precioEntrada}}
-              </h2>
-              
-              
-              
-
-              <a href="{{route("Ventas.VerComprar",$funcion->getId())}}" class="btn btn-success  btn-icon icon-left">
-                Comprar
+              <div class="mt-auto">
                 
-              </a>
+                <div>
+                  <span class="">
+                    {{$funcion->getFechaEscrita()}}
+                  </span>
+                </div>
+                <div>
+                  <span>
+                    {{$funcion->getHora()}}
+                  </span>
+                </div>
+                
+                <br>
+                {{$funcion->getSala()->nombre}}
+                
+                
+                
+                <h2>
+                  S/ {{$funcion->precioEntrada}}
+                </h2>
+                
+                
+                
 
+                <a href="{{route("IntencionPago.VerComprar",$funcion->getId())}}" class="btn btn-success  btn-icon icon-left">
+                  Comprar
+                  
+                </a>
+
+              </div>
+              
             </div>
             
+
           </div>
           
-
         </div>
-        
+
+
       </div>
 
-
-    </div>
-
-  @endforeach
-    
+    @endforeach
+      
   </div>
   {{$listaFunciones->links()}}
 </div>
