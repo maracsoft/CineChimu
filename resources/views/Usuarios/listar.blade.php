@@ -30,6 +30,7 @@
             <tr>
                 <th>COD</th>
                 <th>Usuario</th>
+                <th>Rol</th>
                 <th>Opciones</th>
             </tr>
         </thead>
@@ -39,6 +40,9 @@
             <tr>
                 <td>{{$itemUsuario->codUsuario}}</td>
                 <td>{{$itemUsuario->usuario}}</td>
+                <td>
+                  {{$itemUsuario->getRol()->nombre}}
+                </td>
                 <td>
                     <a href="{{route("Usuarios.Editar",$itemUsuario->codUsuario)}}" class="btn btn-warning btn-xs btn-icon icon-left">
                         <i class="fas fa-edit"></i>

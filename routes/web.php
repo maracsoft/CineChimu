@@ -21,7 +21,9 @@ Route::get('/probandoCosas',function(){
 
 });
 
-
+Route::get('/Cartelera','StaticController@VerCartelera')->name('VerCartelera');
+Route::get('/Nosotros','StaticController@VerNosotros')->name('VerNosotros');
+Route::get('/Contactanos','StaticController@VerContactanos')->name('VerContactanos');
 
 
 
@@ -69,7 +71,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     
     /* VENTAS de funciones */
 
-    Route::get('/Cartelera','IntencionPagoController@VerCartelera')->name('IntencionPago.VerCartelera');
+    
     Route::get('/Comprar/{id}','IntencionPagoController@VerComprar')->name('IntencionPago.VerComprar');
 
 

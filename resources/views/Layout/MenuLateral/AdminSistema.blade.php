@@ -29,7 +29,7 @@
       
 
       <li class="nav-item">
-        <a href="{{route('IntencionPago.VerCartelera')}}" class="nav-link">
+        <a href="{{route('VerCartelera')}}" class="nav-link">
           <i class="far fa-address-card nav-icon"></i>
           <p>Cartelera</p>
         </a>

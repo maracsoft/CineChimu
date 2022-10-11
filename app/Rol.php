@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Cliente;
 use Illuminate\Support\Facades\Auth;
-class Usuario extends Model
+class Rol extends Model
 {
 
 

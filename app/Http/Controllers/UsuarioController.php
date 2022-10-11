@@ -7,13 +7,14 @@ use App\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\ErrorHandler\Debug;
 
 class UsuarioController extends Controller
 {
     const PAGINATION = 15;
 
     public function Listar(){
-        $usuarios = User::paginate($this::PAGINATION);
+        $usuarios = Usuario::paginate($this::PAGINATION);
 
         return view('Usuarios.Listar',compact('usuarios'));
     }
@@ -28,7 +29,7 @@ class UsuarioController extends Controller
     }
 
     public function Eliminar($id){
-        $usuario=User::findOrFail($id);
+        $usuario=Usuario::findOrFail($id);
         $usuario->delete();
         return redirect()->route('Usuarios.Listar')
                 ->with('datos','Usuario '.$usuario->usuario.' eliminado exitosamente');
@@ -40,8 +41,13 @@ class UsuarioController extends Controller
         try{
             DB::beginTransaction();
             
-            $usuario=new User();
+            $usuario=new Usuario();
             $usuario->usuario=$request->usuario;
+            $usuario->dni=$request->dni;
+            $usuario->nombres=$request->nombres;
+            $usuario->apellidos=$request->apellidos;
+            $usuario->codRol = 2;
+            
             $usuario->password=hash::make($request->password1);
             $usuario->save();
             
@@ -51,7 +57,9 @@ class UsuarioController extends Controller
                 ->with('datos','Usuario '.$usuario->usuario.' registrado exitosamente');
             
         }catch (\Throwable $th) {
-            //Debug::mensajeError(' ACTOR CONTROLLER guardarcrearactor' ,$th);    
+            throw $th;
+          
+            error_log(' Usuario CONTROLLER guardar usuario '.$th);    
             DB::rollback();
 
             return redirect()->route('Usuarios.Listar')
@@ -64,7 +72,7 @@ class UsuarioController extends Controller
         try{
             DB::beginTransaction();
             
-            $usuario=User::findOrFail($request->codUsuario);
+            $usuario=Usuario::findOrFail($request->codUsuario);
             $usuario->usuario=$request->usuario;
             $usuario->password=hash::make($request->password1);
             $usuario->save();

@@ -18,7 +18,7 @@ class Usuario extends Model
         'codCliente', 'email','password','fechaActualizacion','isAdmin'
     ];
 
-    public static function getLogeado(){
+    public static function getLogeado() : Usuario {
         return Usuario::findOrFail(Auth::id());
     }
 
@@ -26,4 +26,15 @@ class Usuario extends Model
       return $this->apellidos." ". $this->nombres;
     }
 
+    public function esAdmin() : bool{
+      return $this->codRol == 1; //si es admin
+
+
+
+    }
+
+
+    public function getRol() : Rol{
+      return Rol::findOrFail($this->codRol);
+    }
 }

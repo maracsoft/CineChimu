@@ -94,144 +94,172 @@
         border-radius: 3px;
     }
   </style>
+  <style>
+    .sideBar-chimu{
+       
+    }
+    .navbar{
+      background-color: #ffffff
+    } 
+    .content{
+      background-color:  #f4f6f9;
+      min-height: 900px;
+    }
+
+    .linkMenu{
+      margin: 10px;
+      color: #3c4b68;
+      font-size: medium;
+      font-weight: 600;
+    }
+    .linkMenu:hover {
+      color: #002697;
+    }
+    .chimu-img{
+      max-height: 33px;
+      width: auto
+    }
+    
+  </style>
   @yield('estilos')
 
 </head>
+@php
+  $haySesionIniciada = Auth::id()!=null;
+  $userLogeado = null;
+  if($haySesionIniciada)
+    $userLogeado = App\Usuario::getLogeado();
+
+@endphp
 <body class="hold-transition sidebar-mini">
   <!--<div class="loader"></div>-->
   @yield('tiempoEspera')
 <!-- Site wrapper -->
-<div class="wrapper">
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
+<div class="wrapper d-flex flex-row">
+  
+  @if($haySesionIniciada)
 
-      <li class="nav-item">
-          <a id="aRefOcultarMenuLateral"  class="nav-link"  data-widget="pushmenu" onclick="clicMenuLateral()" href="#"
-           role="button">
-              <i id="iconoOcultarMenuLateral" class="fas fa-chevron-left"></i>
-          </a>
-      </li>
-      
-      <a class="btn btn-primary"  title="Volver al Inicio" href="{{route('user.home')}}" >
-        Home
+    @if($userLogeado->esAdmin())
+                
+     
+    
+    <aside class="sideBar-chimu sidebar-dark-primary elevation-4">
+       
+      <a href="{{ route('user.home') }}" class="brand-link ml-2 mr-4">
+        <img src="/img/CineChimu.png" alt="AdminLTE Logo" class="chimu-img img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">CINE CHIMU</span>
       </a>
 
-      {{-- <a class="btn btn-primary" onclick="clickeoButton()" title="Volver al Inicio" href="#" >
-        CLICK AQUI
-      </a> --}}
 
-  
-
-    </ul>
+      
+      <div class="sidebar">
+        
+        
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div class="image">
+            <img src="/img/usuario.png" class="img-circle elevation-2" alt="User Image">
+          </div>
+              <div class="info">
+                <a href="/verMisDatos" class="d-block"></a>
+                  <label for="" style="color: rgb(255, 255, 255))">
+                    {{App\Usuario::getLogeado()->usuario }}
+                  </label>
+              </div>
     
-
-    <ul class="navbar-nav ml-auto" style="margin-right:10%;">
-      <!-- Messages Dropdown Menu --> {{-- VER CARRITO RAPIDAMENTE --}}
-      
-      @include('Layout.Notificaciones.Solicitudes')
-      
-    </ul>
-      
-
-
-
-
-    <ul class="navbar-nav ml-auto">
-      <!-- Messages Dropdown Menu --> {{-- VER CARRITO RAPIDAMENTE --}}
-        @include('Layout.Notificaciones.Usuario')
-    </ul>
-      
-
-
-
-
-
-
-
-    
-  </nav>
-  <!-- /.navbar -->
- {{--  {{route('bienvenido')}} --}}
-  <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="{{ route('user.home') }}" class="brand-link">
-      <img src="/img/CineChimu.png"
-           alt="AdminLTE Logo"
-           class="brand-image img-circle elevation-3"
-           style="opacity: .8">
-      <span class="brand-text font-weight-light">CINE CHIMU</span>
-    </a>
-
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user (optional) -->
-      
-      
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="/img/usuario.png" class="img-circle elevation-2" alt="User Image">
         </div>
 
         
-            <div class="info">
-              <a href="/verMisDatos" class="d-block"></a>
-             
-                <label for="" style="color: rgb(255, 255, 255))">
-                  {{App\Usuario::getLogeado()->usuario }}
-                </label>
-      
-            </div>
-   
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" 
+            role="menu" data-accordion="false">
+
+            
+            @include('Layout.MenuLateral.AdminSistema')  {{-- Este tiene todo --}}
+            
+
+            
+
+          </ul>
+        </nav>
+
+
+
+        <!-- /.sidebar-menu -->
       </div>
+      
+    </aside>
+   
+    @endif
+  @endif
+  <div class="flex-fill">
 
       
-<!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" 
-          role="menu" data-accordion="false">
+    <nav class="navbar navbar-expand navbar-white navbar-light pl-4">
+       
 
-          
-           @include('Layout.MenuLateral.AdminSistema')  {{-- Este tiene todo --}}
-           
-
-           
-
-        </ul>
-      </nav>
-
-
-
-      <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
-  </aside>
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-
-    <!-- Main content -->
-    <section class="content">
-        @yield('contenido')
-     
-    </section>
-    <!-- /.content -->
-  </div>
- 
-  <footer class="main-footer" style="padding: 4px; font-size:9pt;">
-    <div style="text-align:right;">
-      <strong>Copyright &copy; 2021 
-          
-        .
-      </strong> 
-      Powered by Maracsoft
-    </div>
+      <ul class="navbar-nav mr-auto"  >
+        <a class="linkMenu" href="{{route('VerCartelera')}}">
+          Cartelera
+        </a>
+        <a class="linkMenu" href="{{route('VerNosotros')}}">
+          Nosotros
+        </a>
+        <a class="linkMenu" href="{{route('VerContactanos')}}">
+          Contáctanos
+        </a>
         
-  </footer>
-   
+      </ul>
+        
+
+
+
+
+      <ul class="navbar-nav ml-auto">
+          @if($haySesionIniciada)
+           
+            @include('Layout.Notificaciones.Usuario')
+          
+          
+          @else
+            @include('Layout.Notificaciones.SesionNoIniciada')
+
+          @endif
+        
+      </ul>
+        
+
+
+
+
+
+
+
+      
+    </nav>
+    
+    
+    <div>
+  
+      <section class="content p-3">
+          @yield('contenido')
+      
+      </section>
+      
+    </div>
+  
+    <footer class="" style="padding: 4px; font-size:9pt;">
+      <div style="text-align:right;">
+        <strong>Copyright &copy; 2021 
+            
+          .
+        </strong> 
+        Powered by Maracsoft
+      </div>
+          
+    </footer>
+    
+  </div>
 
 </div>
 <!-- ./wrapper -->

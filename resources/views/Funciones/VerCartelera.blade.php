@@ -4,12 +4,16 @@
 @endsection
 
 @section('contenido')
+@php
+  $hayAlguienLogeado = Auth::id()!=null;
+@endphp
  
 <div style="text-align: center">
-  <h2>
-    Nuestra Cartelera
-  </h2>
- 
+  <div>
+    <h2 class="mb-3">
+      Nuestra Cartelera
+    </h2>
+  </div>
     
   
   @include('Layout.MensajeEmergenteDatos')
@@ -62,12 +66,19 @@
                 
                 
                 
+                @if($hayAlguienLogeado)
+                  <a href="{{route("IntencionPago.VerComprar",$funcion->getId())}}" class="btn btn-success  btn-icon icon-left">
+                    Comprar
+                  </a>
 
-                <a href="{{route("IntencionPago.VerComprar",$funcion->getId())}}" class="btn btn-success  btn-icon icon-left">
-                  Comprar
+                
+                @else
+                  <a href="#" onclick="clickComprarNoLogeado()" class="btn btn-success  btn-icon icon-left">
+                    Comprar
+                  </a>
                   
-                </a>
-
+                @endif
+                
               </div>
               
             </div>
@@ -93,7 +104,9 @@
 
 <script>
 
-   
+function clickComprarNoLogeado(){
+  alerta("Para comprar funciones debe iniciar sesión");
+}
   
 </script>
 

@@ -106,6 +106,8 @@ class UserController extends Controller
 
 
     public function home(){
+        return redirect()->route('VerCartelera');
+        
         if(is_null(Auth::id()))
             return redirect()->route('user.verLogin');
  

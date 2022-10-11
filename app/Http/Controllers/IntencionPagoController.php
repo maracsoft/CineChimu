@@ -16,18 +16,7 @@ use Illuminate\Support\Facades\Hash;
 class IntencionPagoController extends Controller
 {
     
-  public function VerCartelera(){
 
-    $fechaActual = Carbon::now();
-
-    /* Solo lista las que aun no suceden */
-    $listaFunciones = Funcion::where('fechaHoraFuncion','>',$fechaActual)
-        ->orderBy('fechaHoraFuncion','ASC')
-        ->paginate(20);
-
-    return view('Funciones.VerCartelera',compact('listaFunciones'));
-
-  }
 
   function VerComprar($codFuncion){
     $funcion = Funcion::findOrFail($codFuncion);
