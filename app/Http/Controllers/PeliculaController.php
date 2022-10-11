@@ -61,7 +61,7 @@ class PeliculaController extends Controller
         $filegetRespuestas = \File::get($archivoRespuestas);
         $nombreArchivo = $pelicula->getPosterFileName().".".$request->file_end;
         
-        $pelicula->urlFoto = "/img/Posters/".$nombreArchivo;
+        $pelicula->urlFoto = "/img/posters/".$nombreArchivo;
         $pelicula->save();
         Storage::disk('posters')->put($nombreArchivo,$filegetRespuestas );  
       }
@@ -97,7 +97,7 @@ class PeliculaController extends Controller
       $filegetRespuestas = \File::get($archivoRespuestas);
       $nombreArchivo = $pelicula->getPosterFileName().".".$request->file_end;
       
-      $pelicula->urlFoto = "/img/Posters/".$nombreArchivo;
+      $pelicula->urlFoto = "/img/posters/".$nombreArchivo;
       $pelicula->save();
       Storage::disk('posters')->put($nombreArchivo,$filegetRespuestas );  
       
