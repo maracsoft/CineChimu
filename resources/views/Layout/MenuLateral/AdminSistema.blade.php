@@ -35,6 +35,13 @@
         </a>
       </li>
 
+      <li class="nav-item">
+        <a href="{{route('Ventas.Listar')}}" class="nav-link">
+          <i class="far fa-address-card nav-icon"></i>
+          <p>Ventas</p>
+        </a>
+      </li>
+
       
 
  
