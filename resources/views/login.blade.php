@@ -55,8 +55,25 @@
 						@enderror
 					</div>
 				
-					<div class="group">
-						<input id="ingresar" name="ingresar" type="submit" class="button" value="Ingresar">
+					<div class="group text-center">
+						<button id="ingresar" name="ingresar" type="submit" class="botonPrincipal" value="Ingresar">
+              INGRESAR
+            </button>
+            <div class="div-no-tienes">
+                
+            
+              ¿No tienes cuenta? 
+
+              <a href="{{route('user.VerRegistrarme')}}">
+                <span class="linkRegistrarme">
+                  Registrarme
+                </span>
+                
+              </a>
+              
+             
+            
+            </div>
 					</div>
 					<div class="hr"></div>
 				 

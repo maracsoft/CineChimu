@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Configuracion;
+use App\PersonaReniec;
+use App\RespuestaAPI;
 use App\User;
 use App\Usuario;
 use Illuminate\Http\Request;
@@ -92,5 +95,30 @@ class UsuarioController extends Controller
         }
          
     }
+
+
+
+
+
+    public function consultarPorDNI($dni_y_usuario){
+      $array = explode("*",$dni_y_usuario);
+      $dni = $array[0];
+      $usuario = $array[1];
+
+      $usuariosConEseDni = Usuario::where('dni',$dni)->get();
+      if(count($usuariosConEseDni)>0){
+        return RespuestaAPI::respuestaError("La persona con ese DNI ya está registrada en el sistema. En caso de no tener acceso a esa cuenta, contáctenos por redes sociales para verificar su información.");
+      }
+
+      $usuariosConEseUsername = Usuario::where('usuario',$usuario)->get();
+      if(count($usuariosConEseUsername)>0){
+        return RespuestaAPI::respuestaError("El nombre de usuario ya está tomado.");
+      }
+
+      return PersonaReniec::ConsultarAPISunatDNI($dni);
+    }
+
+
+
 
 }

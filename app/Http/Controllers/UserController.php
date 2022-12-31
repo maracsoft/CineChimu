@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Cliente;
 use Illuminate\Support\Carbon;
 use App\Carrito;
+use App\PersonaReniec;
+use Exception;
 use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
@@ -44,7 +46,7 @@ class UserController extends Controller
 
                         //SI INGRESÓ EL ADMIN 
                         if(Auth::attempt($request->only('usuario','password'))){ //este attempt es para que el Auth se inicie
-                             
+                            
                             return redirect()->route('user.home');
                         }
                     }//si es user normal
@@ -89,6 +91,53 @@ class UserController extends Controller
     }
     public function verLogin(){
         return view('login');
+    }
+
+
+    public function verRegistrarme(){
+      return view('registrarme');
+    }
+
+
+    public function registrarme(Request $request){
+      try{
+        DB::beginTransaction();
+        
+        $persona = new PersonaReniec($request->dni);
+        
+        $usuario=new Usuario();
+        $usuario->usuario=$request->usuario;
+        $usuario->dni=$persona->dni;
+        $usuario->apellidos=$persona->apellidos;
+        $usuario->nombres=$persona->nombres;
+
+        $usuario->codRol = 2;
+        $usuario->verificado = 0;
+        
+        $usuario->password=hash::make($request->password);
+        $usuario->save();
+        
+
+        db::commit();
+        //ya está creado el usuario, ahora iniciamos su sesión
+
+        if(Auth::attempt($request->only('usuario','password'))){
+
+          return redirect()->route('VerCartelera')->with('datos',"Su cuenta ha sido creada exitosamente.");
+        }else{
+          throw new Exception("Por alguna razón el logeo fue incorrecto");
+        }
+
+
+    }catch (\Throwable $th) {
+        throw $th;      
+        error_log(' User Controller registrarme '.$th);    
+        DB::rollback();
+        return redirect()->route('Usuarios.Listar')
+            ->with('datos','Error al registrar un usuario');
+    }
+
+
     }
  
 

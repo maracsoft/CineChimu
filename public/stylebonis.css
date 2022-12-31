@@ -13,6 +13,10 @@ body{
 .clearfix:after{clear:both;display:block}
 a{color:inherit;text-decoration:none}
 
+.conteiner{
+  margin-top: 40px;
+}
+
 .login-wrap{
 	width:100%;
 	margin:auto;
@@ -22,20 +26,57 @@ a{color:inherit;text-decoration:none}
 	
 	box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
 }
+
 .login-html{
 	width:100%;
-	height:100%;
+	 
 	position:absolute;
 	padding:90px 70px 50px 70px;
 	background:rgb(35 170 191)
 }
+
+@media (max-width: 400px) {
+  .login-html {
+    padding: 40px 25px 20px 25px;
+  }
+}
+
+.label{
+  margin-left: 20px;
+}
+
+.inputDNI{
+  border: none;
+  padding: 15px 20px;
+  border-radius: 25px;
+  background: rgb(255 255 255 / 75%);
+
+  color: #070807;
+  width: 130px;
+}
+
+.nombreCompleto{
+  border: none;
+  padding: 15px 20px;
+  border-radius: 25px;
+  
+  margin-left: 5px;
+  color: #070807;
+  width: fit-content;
+  flex-grow: 1;
+}
+
+.bloqued{
+  background: rgba(209, 209, 209, 0.75);
+}
+.ready{
+  background: rgb(159 255 129 / 75%)
+}
+
+
 .login-html .sign-in-htm,
 .login-html .sign-up-htm{
-	top:0;
-	left:0;
-	right:0;
-	bottom:0;
-	position:absolute;
+	 
 	transform:rotateY(180deg);
 	backface-visibility:hidden;
 	transition:all .4s linear;
@@ -50,6 +91,38 @@ a{color:inherit;text-decoration:none}
 .login-form .group .button{
 	text-transform:uppercase;
 }
+
+
+
+.botonPrincipal{
+   
+  width:100%;
+	color:rgb(255, 255, 255);
+	 
+  font-weight: 900;
+  background:#2128a5;
+  border:none;
+	padding:15px 20px;
+	border-radius:25px;
+}
+.botonPrincipal:hover{
+  background-color: #2d35d1;
+  
+}
+
+.div-no-tienes{
+  margin-top: 20px;
+  font-weight: 200;
+}
+.linkRegistrarme{
+    
+   font-weight: 900;
+
+}
+.linkRegistrarme:hover{
+  color:#3138a9
+}
+
 .login-html .tab{
 	font-size:22px;
 	margin-right:15px;
@@ -64,20 +137,27 @@ a{color:inherit;text-decoration:none}
 	border-color:#858cb873;
 }
 .login-form{
-	min-height:345px;
-	position:relative;
+	 
+	 
 	perspective:1000px;
 	transform-style:preserve-3d;
 }
 .login-form .group{
 	margin-bottom:15px;
 }
+
+.login-form .group .input{
+  color:#070807;
+  width:100%;
+}
+
+
 .login-form .group .label,
-.login-form .group .input,
 .login-form .group .button{
 	width:100%;
-	color:rgb(36, 36, 36);
+	color:rgb(255, 255, 255);
 	display:block;
+  font-weight: 900;
 }
 .login-form .group .input,
 .login-form .group .button{
@@ -153,3 +233,37 @@ a{color:inherit;text-decoration:none}
 	text-align:center;
 }
 
+/* UTILITIE */
+.text-center{
+  text-align: center;
+}
+
+.flex{
+  display: flex;
+
+}
+.flex-grow{
+  flex-grow: 1;
+}
+.w-100{
+  width: 100%;
+}
+.form-control-undefined{
+  background-color: red;
+  
+}
+
+.loader {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url('/img/espera.gif') 50% 50% no-repeat rgb(249,249,249);
+  background-size: 10%;
+  opacity: .8;
+}
+.hidden{
+  display: none;
+}

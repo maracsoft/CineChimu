@@ -1,6 +1,7 @@
 <?php
 
 use App\EstadoIntencion;
+use App\PersonaReniec;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -11,14 +12,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'UserController@home')->name('user.home');
 
 Route::get('/login', 'UserController@verLogin')->name('user.verLogin'); //para desplegar la vista del Login
+Route::get('/registrarme', 'UserController@VerRegistrarme')->name('user.VerRegistrarme'); //para desplegar la vista del Login
+
+Route::post('/registrarUsuario', 'UserController@registrarme')->name('user.registrarUsuario'); //para desplegar la vista del Login
+
 Route::post('/ingresar', 'UserController@logearse')->name('user.logearse'); //post
 
 Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesion');
 
+Route::get('/usuarios/consultarPorDni/{dni}','UsuarioController@consultarPorDNI')->name('consultarPorDni');
 
 Route::get('/probandoCosas',function(){
-  return EstadoIntencion::getCodEstado('Creado');
-
+  $persona = new PersonaReniec(71208489);
+  return $persona->toJson();
 });
 
 Route::get('/Cartelera','StaticController@VerCartelera')->name('VerCartelera');

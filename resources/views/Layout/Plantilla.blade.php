@@ -120,6 +120,10 @@
       width: auto
     }
     
+
+    .mb--1{
+      margin-bottom: -6px;
+    }
   </style>
   @yield('estilos')
 

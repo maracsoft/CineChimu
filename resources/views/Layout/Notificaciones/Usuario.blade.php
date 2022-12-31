@@ -1,11 +1,23 @@
 {{-- EN ESTE VAN LAS SOLICITUDES POR RENDIR Y LAS OBSERVADAS --}}
 
+
+
+<div class="d-flex flex-column mx-3 text-right fontSize11">
+
+  <span class="mb--1 font-weight-bold" title="Nombre de usuario">
+    {{$userLogeado->usuario}}
+  </span>
+  <span>
+    {{$userLogeado->getNombreCompleto()}}
+  </span>
+</div>
 <li class="nav-item dropdown">
-    
+  
     {{-- CABECERA DE TODA LA NOTIF  --}}
     <a class="nav-link btn btn-info" style="color:beige" data-toggle="dropdown" href="#">
       <i class="far fa-user"></i>
       Cuenta
+      
     </a>
 
 
