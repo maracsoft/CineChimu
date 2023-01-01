@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Debug;
+use App\DetalleVenta;
 use App\Venta;
 use App\User;
 use App\Usuario;
@@ -95,13 +97,16 @@ class VentaController extends Controller
       $venta->comentario = $request->comentario;
 
       $venta->save();
-
-      $detalles =  json_decode($venta->json_detalles);
+      $detalles =  json_decode($request->detalles_json);
+      
       $monto_total = 0;
       foreach ($detalles as $detalle) {
+        
+        $producto = Producto::findOrFail($detalle->producto->codProducto);
+        
         $detalle_venta = new DetalleVenta();
         $detalle_venta->codVenta = $venta->getId();
-        $detalle_venta->codProducto = $detalle->codProducto;
+        $detalle_venta->codProducto = $producto->codProducto;
         $detalle_venta->precioVenta = $producto->precioVenta;
         $detalle_venta->cantidad = $detalle->cantidad;
         $detalle_venta->save();
@@ -109,10 +114,10 @@ class VentaController extends Controller
         $monto_total = $monto_total + $detalle_venta->precioVenta;
       }
       $venta->montoTotal = $monto_total;
-
+      $venta->save();
       db::commit();
 
-      return redirect()->route('Ventas.Editar',$venta->getId())->with('datos',"Película registrada exitosamente");
+      return redirect()->route('Ventas.Listar',$venta->getId())->with('datos',"Venta registrada exitosamente");
 
     } catch (\Throwable $th) {
       

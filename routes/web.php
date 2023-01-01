@@ -20,7 +20,8 @@ Route::post('/ingresar', 'UserController@logearse')->name('user.logearse'); //po
 
 Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesion');
 
-Route::get('/usuarios/consultarPorDni/{dni}','UsuarioController@consultarPorDNI')->name('consultarPorDni');
+Route::get('/usuarios/consultarPorDNIYUsuario/{dni}','UsuarioController@consultarPorDNIYUsuario')->name('consultarPorDNIYUsuario');
+Route::get('/usuarios/verificarExistenciaUsuarioConDNI/{dni}','UsuarioController@verificarExistenciaUsuarioConDNI')->name('verificarExistenciaUsuarioConDNI');
 
 Route::get('/probandoCosas',function(){
   $persona = new PersonaReniec(71208489);

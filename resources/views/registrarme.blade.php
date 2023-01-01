@@ -177,7 +177,7 @@
   }
 
   async function consultarPorDniYUsuario(dni,username){
-    const response = await fetch("/usuarios/consultarPorDni/" + dni + "*" + username)
+    const response = await fetch("/usuarios/consultarPorDNIYUsuario/" + dni + "*" + username)
     const data = await response.json();
     return data;
 

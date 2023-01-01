@@ -11,24 +11,20 @@
 @section('contenido')
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<div >
-    <p class="h2" style="text-align: center">
-        Crear Venta
-    </p>
-</div>
+ 
 
 @include('Layout.MensajeEmergenteDatos')
 
 <form method = "POST" action = "{{route('Ventas.Guardar')}}" id="formVenta" name="formVenta"  enctype="multipart/form-data">
-    
-    @csrf
+    <input type="hidden" id="detalles_json" name="detalles_json">
+    @csrf 
 
     <div class="card mx-2">
         <div class="card-header ui-sortable-handle" style="cursor: move;">
             <div class="d-flex flex-row">
                 <div class="">
                     <h3 class="card-title">
-                        <b>Información General</b>
+                        <b>Registrar Venta</b>
                     </h3>
                 </div>
             </div>
@@ -43,7 +39,7 @@
                 </label>
                 <div class="d-flex">
                   <input type="text" class="form-control mr-1" name="dni" id="dni" placeholder="Buscar por DNI" value="">
-                  <button class="btn btn-success mr-1" onclick="buscarPorDNI">
+                  <button class="btn btn-success mr-1" onclick="buscarPorDNI()" type="button">
                     <i class="fas fa-search "></i>
                   </button>
                   <input type="text" class="form-control" id="nombre_cliente" placeholder="Nombre del cliente" value="" readonly>
@@ -63,7 +59,7 @@
                 <label for="" id="">
                   Método de Pago
                 </label>
-                <select class="form-control" name="" id="">
+                <select class="form-control" name="codMetodo" id="codMetodo">
                   <option value="">Método de Pago</option>
                   @foreach ($metodosPago as $metodo)
                     <option value="{{$metodo->getId()}}">
@@ -83,56 +79,56 @@
 
               
             </div>  
-            <div class="row ">
-              <div class="col contenedor-detalles mx-4 p-2">
-                <div>
-                  <label for="">
-                    Detalle de la venta
-                  </label>
-                </div>
-                <div class="d-flex">
+           
+            <div class="col-12 contenedor-detalles p-2">
+              <div>
+                <label for="">
+                  Detalle de la venta
+                </label>
+              </div>
+              <div class="d-flex">
 
-                  <select class="form-control select2 select2-hidden-accessible selectpicker" data-select2-id="1" tabindex="-1" aria-hidden="true" id="codProducto" data-live-search="true" >
-                    <option value="-1">- Seleccione Producto para añadir-</option>          
-                    @foreach($listaProductos as $producto)
-                      <option value="{{$producto->getId()}}" >
-                        {{$producto->nombre}}
-                      </option>                                 
-                    @endforeach
-                  </select>
-                  <button class="btn btn-success ml-1" type="button" onclick="clickAñadirDetalle()">
-                    <i class="fas fa-plus"></i>
-                  </button>
-                </div>
-                <div>
+                <select class="form-control select2 select2-hidden-accessible selectpicker" id="codProductoAñadir" data-select2-id="1" tabindex="-1" aria-hidden="true" data-live-search="true" >
+                  <option value="-1">- Seleccione Producto para añadir-</option>          
+                  @foreach($listaProductos as $producto)
+                    <option value="{{$producto->getId()}}" >
+                      {{$producto->nombre}} - S/ {{number_format($producto->precioVenta,2)}}
+                    </option>                                 
+                  @endforeach
+                </select>
+                <button class="btn btn-success ml-1" type="button" onclick="clickAñadirDetalle()">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+              <div>
 
-                                
-                  <table class="table  table-sm my-2">
-                    <thead class="thead-dark">
-                      <tr>
-                        <th>#</th>
-                        <th>Producto</th>
-                        <th>Precio</th>
-                        <th>Cantidad</th>
-                        <th>Subtotal</th>
+                              
+                <table class="table  table-sm my-2">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th>#</th>
+                      <th>Producto</th>
+                      <th class="text-right">Precio Unitario</th>
+                      <th class="text-right">Cantidad</th>
+                      <th class="text-right">Subtotal</th>
 
-                        <th>Opciones</th>
-                      </tr>
-                    </thead>
-                    <tbody id="tbody_detalles">
-                      
-                    </tbody>
-                  </table>
+                      <th class="text-center">Opciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbody_detalles">
+                    
+                  </tbody>
+                </table>
 
-
-                </div>
 
               </div>
-                
 
             </div>
+              
+
+           
             <div class="row">
-                <div class="ml-auto m-1">
+                <div class="ml-auto mt-3">
 
                     <button type="button" class="btn btn-primary"  data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando"
                         onclick="clickGuardar()">
@@ -222,74 +218,59 @@
 
  
     function validarFormulario(){
-        limpiarEstilos(['nombre','director','añoEstreno','duracionMinutos','descripcion']);
+        limpiarEstilos([]);
         msj = "";
-
-        
-        msj = validarTamañoMaximoYNulidad(msj,'nombre',100,'Nombre de la película');
-        msj = validarTamañoMaximoYNulidad(msj,'director',500,'Nombre de la película');
-        msj = validarTamañoMaximoYNulidad(msj,'añoEstreno',4,'Nombre de la película');
-        msj = validarPositividadYNulidad(msj,'duracionMinutos','Nombre de la película');
-        msj = validarTamañoMaximoYNulidad(msj,'descripcion',1000,'Nombre de la película');
-
+ 
          
         return msj;
 
     }
     
-    function onChange(){
- 
-      var archivo = document.getElementById('fotoPoster').files[0];
-      var arraySeparadoPuntos = archivo.name.split(".");
-
-      var terminacion = arraySeparadoPuntos[arraySeparadoPuntos.length-1]
-      
-      console.log(terminacion)
-  
-      document.getElementById('poster_name').innerHTML = archivo.name;
-      document.getElementById("file_end").value = terminacion; //input que se manda
-
-    }
+    
 
 
-
+    const ContenedorDetalles = document.getElementById('detalles_json')
     const TablaDetalles = document.getElementById('tbody_detalles');
     /* RENDERIZADO TABLA */
     function imprimirTabla(){
 
       var html_tabla = "";
+      var total_acumulado = 0;
       for (let index = 0; index < listaDetalles.length; index++) {
         const detalle = listaDetalles[index];
         var itemMasUno = index+1;
         var subTotal = detalle.producto.precioVenta * detalle.cantidad;
-        var fila=      /* html */ `
+        total_acumulado+= subTotal;
+        var fila=      `
                 <tr>               
-                    <td >              
+                    <td>              
                         `+itemMasUno+`
                     </td>             
-                    <td> 
+                    <td class="nombre-producto"> 
                         `+detalle.producto.nombre+`
                     </td>               
-                    <td  style="">
+                    <td class="text-right numero">
+                      S/ 
                       `+ detalle.producto.precioVenta.toFixed(2) + ` 
                     </td>               
-
-                    <td >              
+                    <td class="text-right numero">              
                       `+detalle.cantidad+`
                     </td>              
-                    <td >              
+                    <td class="text-right numero">          
+                      S/     
                       `+subTotal.toFixed(2)+`
                     </td>              
-                    <td >              
-                        <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle(`+index+`);">
-                            <i class="fa fa-times" ></i>               
-                        </button>       
-                        <button type="button" class="btn btn-xs" onclick="aumentarCantidadDetalle(`+index+`);">
+                    <td class="text-center">              
+                           
+                        <button type="button" class="btn btn-success " onclick="aumentarCantidadDetalle(`+index+`);">
                             <i class="fas fa-plus"></i>            
                         </button>        
-                        <button type="button" class="btn btn-xs" onclick="reducirCantidadDetalle(`+index+`);">
+                        <button type="button" class="btn btn-success " onclick="reducirCantidadDetalle(`+index+`);">
                             <i class="fas fa-minus"></i>            
-                        </button>        
+                        </button>   
+                        <button type="button" class="btn btn-danger " onclick="eliminarDetalle(`+index+`);">
+                            <i class="fa fa-times" ></i>               
+                        </button>         
                         
                     </td>               
                 </tr>         `;
@@ -307,17 +288,37 @@
                 `
       }
 
+
+      var fila_total = `
+          <tr>                
+              <td colspan="4" class="nombre-producto text-right">              
+                  TOTAL:
+              </td>                        
+              <td  class="text-right numero">              
+                 S/ `+total_acumulado.toFixed(2)+`
+              </td>                        
+              
+              <td class="text-center">              
+                              
+              </td>               
+          </tr>         
+      `;
+      html_tabla += fila_total;
+
+
+      ContenedorDetalles.value = JSON.stringify(listaDetalles);
       TablaDetalles.innerHTML = html_tabla
 
     }
 
-    const SelectorProductos = document.getElementById('codProducto');
+    const SelectorProductos = document.getElementById('codProductoAñadir');
     function clickAñadirDetalle(){
       var codProductoAñadir = SelectorProductos.value;
-
+       
       var productoYaEnlistado = listaDetalles.find(e => e.producto.codProducto == codProductoAñadir);
       if(productoYaEnlistado){
         alerta("El producto ya está en el carrito")
+        
         return;
       }
 
@@ -327,8 +328,7 @@
         cantidad:1,
         subTotal:producto.precioVenta,
       });
-
-
+      
       imprimirTabla();
 
     }
@@ -340,8 +340,8 @@
       imprimirTabla();
       
     }
-    function reducirCantidadDetalle(index){
-
+    function reducirCantidadDetalle(index){ 
+      console.log(listaDetalles[index].cantidad)
       if(listaDetalles[index].cantidad == 1){
         eliminarDetalle(index);
         return;
@@ -354,12 +354,45 @@
       
     }
     function eliminarDetalle(index){
-      listaDetalles = listaDetalles.slice(index,0);
+      console.log("eliminando detalle " + index);
+      console.log("antes",listaDetalles)
 
+      listaDetalles.splice(index,1);
+      
+      console.log("despues",listaDetalles)
       imprimirTabla();
       
     }
 
+    /*  
+      Buscamos si el DNI tiene un usuario existente
+      Si tiene un usuario existente, se trae su codUsuario
+      Si no tiene usuario existente, se le crea uno 
+
+    */
+
+    const InputDNI = document.getElementById('dni');
+    const InputNombreCliente = document.getElementById('nombre_cliente');
+    const InputCodUsuarioComprador = document.getElementById('codUsuarioComprador');
+    async function buscarPorDNI(){
+      var dni = InputDNI.value;
+      
+      const request = await fetch("/usuarios/verificarExistenciaUsuarioConDNI/" + dni)
+      const verify_response = await request.json();
+      if(verify_response.exist){ //ya existe el usuario
+        
+        var codUsuario = verify_response.codUsuario;
+        InputCodUsuarioComprador.value = codUsuario;
+        InputNombreCliente.value = verify_response.nombre;
+        alertaMensaje("Enhorabuena","Usuario encontrado " + verify_response.nombre,'success');
+      }else{ //no existe el usuario, creamos su cuenta
+        
+
+
+      }
+
+
+    }
 
 </script>
  
@@ -367,9 +400,16 @@
 @section('estilos')
 <style>
   .contenedor-detalles{
-    background-color: rgb(203, 189, 216);
+    background-color: rgb(241 241 241);
     border-radius:8px;
     
+  }
+  .contenedor-detalles .numero{
+    font-size: 16pt;
+    font-weight: 500;
+  }
+  .contenedor-detalles .nombre-producto{
+    font-size: 14pt;
   }
   .poster-peli{
     background-color: rgb(172, 191, 255);

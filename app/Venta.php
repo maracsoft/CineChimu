@@ -32,8 +32,13 @@ class Venta extends Model
     public function getDetallesVenta(){
       return DetalleVenta::where('codVenta',$this->codVenta)->get();
     }
+    public function getFechaHora(){
+      return Fecha::formatoFechaHoraParaVistas($this->fechaHora);
+    }
 
-
+    public function getTotal(){
+      return number_format($this->montoTotal,2);
+    }
 
 
 }

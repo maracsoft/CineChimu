@@ -99,8 +99,8 @@ class UsuarioController extends Controller
 
 
 
-
-    public function consultarPorDNI($dni_y_usuario){
+    
+    public function consultarPorDNIYUsuario($dni_y_usuario){
       $array = explode("*",$dni_y_usuario);
       $dni = $array[0];
       $usuario = $array[1];
@@ -118,6 +118,28 @@ class UsuarioController extends Controller
       return PersonaReniec::ConsultarAPISunatDNI($dni);
     }
 
+
+    public function verificarExistenciaUsuarioConDNI($dni){
+      
+      $usuariosConEseDni = Usuario::where('dni','=',$dni)->get();
+      $exist = false;
+      $codUsuario = null;
+      $nombre = "";
+
+      if(count($usuariosConEseDni) > 0){
+        $exist = true;
+        $codUsuario = $usuariosConEseDni[0]->codUsuario;
+        $nombre = $usuariosConEseDni[0]->getNombreCompleto();
+      }
+
+
+      return [
+        'exist' => $exist,
+        'codUsuario' => $codUsuario,
+        'nombre'=>$nombre
+      ];
+
+    }
 
 
 
