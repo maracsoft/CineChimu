@@ -5,7 +5,7 @@
 @endsection
 
 @section('tiempoEspera')
- 
+    <div class="loader" id="pantallaCarga"></div>
 @endsection
 
 @section('contenido')
@@ -28,28 +28,41 @@
             </div>
         </div>  
         <div class="card-body">
-            <div class="col row">
+            <div class="row">
+              <div class="col-12">
+                <input type="checkbox" id="esVentaAnonima" name="esVentaAnonima" onclick="togleVentaAnonima()">
+                <label for="esVentaAnonima">
+                  Es venta anonima
+                </label>
+                
+              </div>
 
-
-              <div class="col-11">
+            </div>
+            <div class="row" id="contenedor_cliente">
+              <div class="col-10">
                 <label for="" id="">
                   Cliente
                 </label>
                 <div class="d-flex">
                   <input type="number" class="form-control mr-1" name="dni" id="dni" placeholder="Buscar por DNI" value="">
-                  <button class="btn btn-success mr-1" onclick="buscarPorDNI()" type="button">
-                    <i class="fas fa-search "></i>
-                  </button>
+                  <div id="btn_buscarPorDni">
+                    <button  class="btn btn-success mr-1 h-100" onclick="buscarPorDNI()" type="button">
+                      <i class="fas fa-search "></i>
+                    </button>
+                  </div>
 
-                  <button class="btn btn-danger mr-1" onclick="reiniciarCliente()" type="button" title="Limpiar cliente">
-                    <i class="fas fa-trash "></i>
-                  </button>
+                  <div id="btn_reiniciarCliente" class="d-none">
+                    <button  class="btn btn-danger mr-1 h-100" onclick="reiniciarCliente()" type="button" title="Cambiar cliente">
+                      <i class="fas fa-trash "></i>
+                    </button>
+                  </div>
+
                   
                   <input type="text" class="form-control" id="nombre_cliente" placeholder="Nombre del cliente" value="" readonly>
                   <input type="hidden" name="codUsuarioComprador" id="codUsuarioComprador" value="-1">
                 </div>
               </div>
-              <div class="col text-left">
+              <div class="col-1 text-left">
                 <label for="" id="">
                   Validado:
                 </label>
@@ -61,7 +74,10 @@
                 </div>
                 
               </div>
-              <div class="col-4">
+            </div>
+            <div class="row">
+
+              <div class="col-12 col-sm-4">
                 <label for="" id="">
                   Cajero:
                 </label>
@@ -69,14 +85,14 @@
 
               </div>
               
-              <div class="col-3">
+              <div class="col-12 col-sm-3">
                 
             
                 <label for="" id="">
                   Método de Pago
                 </label>
                 <select class="form-control" name="codMetodo" id="codMetodo">
-                  <option value="">Método de Pago</option>
+                  <option value="-1">Método de Pago</option>
                   @foreach ($metodosPago as $metodo)
                     <option value="{{$metodo->getId()}}">
                       {{$metodo->nombre}}
@@ -85,18 +101,35 @@
                 </select>
                 
               </div>
-              <div class="col-9">
+
+              <div class="col-12 col-sm-5">
+                <label for="">
+                  Función
+                </label>
+                <select class="form-control" name="codFuncion" id="codFuncion">
+                  <option value="0">- Funciones de Hoy -</option>
+                  <option value="-1">Ninguna Función</option>
+                  @foreach ($funcionesDeHoy as $funcion)
+                    <option value="{{$funcion->getId()}}">
+                      {{$funcion->getTextoResumenHoy()}}
+                    </option>
+                  @endforeach
+                  
+               
+                </select>
+
+              </div>
+              <div class="col-12 col-sm-12">
                 <label for="" id="">
                   Comentario
                 </label>
-                <textarea name="comentario" id="comentario" class="form-control" cols="30" rows="2"></textarea>
+                <textarea name="comentario" id="comentario" class="form-control" cols="30" rows="1"></textarea>
                 
               </div>
 
-              
-            </div>  
-           
-            <div class="col-12 contenedor-detalles p-2">
+            </div>
+          
+            <div class="col-12 contenedor-detalles p-2 mt-2">
               <div>
                 <label for="">
                   Detalle de la venta
@@ -112,9 +145,9 @@
                     </option>                                 
                   @endforeach
                 </select>
-                <button class="btn btn-success ml-1" type="button" onclick="clickAñadirDetalle()">
+               {{--  <button class="btn btn-success ml-1" type="button" onclick="clickAñadirDetalle()">
                   <i class="fas fa-plus"></i>
-                </button>
+                </button> --}}
               </div>
               <div>
 
@@ -178,10 +211,8 @@
 
 
 </form>
-<button id="modalOpener" data-toggle="modal" data-target="#modalAgregarUsuario">
-</button>
-
-</a>
+ 
+ 
 <div class="modal  fade" id="modalAgregarUsuario" tabindex="-1" aria-labelledby="" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
@@ -207,11 +238,14 @@
                     <input type="text" class="form-control" id="modal_email" name="modal_email" value="" placeholder="alguncorreo@example.com">
                   </div>
                   <div class="col-12">
-                    <span>
-                      La contraseña por defecto es el DNI del usuario, al iniciar sesión este podrá cambiarla.
-                    </span>
+                    <div class="msj-modal">
+                      <span>
+                        La contraseña por defecto es el DNI del usuario, al iniciar sesión este podrá cambiarla.
+                      </span>
+                    </div>
+                    
                   </div>
-  
+
               </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -254,9 +288,12 @@
 @section('script')
 
 <script type="application/javascript">
-  
+
     var listaDetalles = [];
     var listaProductos = @json($listaProductos)
+    
+    var esVentaAnonima = false;
+
 
     const ValidClientClass = "fas fa-2x fa-check color-green";
     const InvalidClientClass = "fas fa-2x fa-times color-red";
@@ -268,8 +305,21 @@
     function onMounted(){
       imprimirTabla();
       setClientValid(false);
+      $(".loader").hide();
     }
 
+    const ContenedorCliente = document.getElementById('contenedor_cliente');
+    const CheckboxVentaAnonima = document.getElementById('esVentaAnonima');
+    function togleVentaAnonima(){
+      esVentaAnonima = CheckboxVentaAnonima.checked;
+      if(esVentaAnonima){
+        ContenedorCliente.className = "row d-none";
+
+      }else{
+        ContenedorCliente.className = "row ";
+        
+      }
+    }
 
     function clickGuardar(){
         msj = validarFormulario();
@@ -289,15 +339,19 @@
 
  
     function validarFormulario(){
-        limpiarEstilos([]);
+        limpiarEstilos(['codMetodo','comentario']);
         msj = "";
  
         
         msj = validarSelect(msj,'codMetodo',"-1",'Método de Pago');
+        msj = validarSelect(msj,'codFuncion',"0",'Función');
         msj = validarTamañoMaximo(msj,'comentario',250,'Comentario de la venta');
-        if(!isClientValid){
-          msj = "El usuario comprador aun no ha sido validado."
+        if(!esVentaAnonima){
+          if(!isClientValid){
+            msj = "El usuario comprador aun no ha sido validado."
+          }
         }
+
         if(listaDetalles.length == 0)
           msj = "No hay items en el carrito";
          
@@ -462,9 +516,10 @@
         
     async function buscarPorDNI(){
       var dni = InputDNI.value;
-      
+      $(".loader").show();
       const request = await fetch("/usuarios/verificarExistenciaUsuarioConDNI/" + dni)
       const verify_response = await request.json();
+      $(".loader").hide();
       if(verify_response.exist){ //ya existe el usuario
         
         var codUsuario = verify_response.codUsuario;
@@ -485,22 +540,47 @@
     }
 
     function reiniciarCliente(){
+
+      alertaMensaje("Enhorabuena","Se reinició el cliente exitosamente",'success');
+      limpiarCamposCliente();
+
+    }
+    function limpiarCamposCliente(){
       InputDNI.readOnly = false;
       InputDNI.value = "";
-      InputNombreCliente = "";
+      InputNombreCliente.value = "";
       setClientValid(false);
 
     }
 
+    const BotonBuscarPorDNI = document.getElementById('btn_buscarPorDni');
+    const BotonReiniciarCliente = document.getElementById('btn_reiniciarCliente'); 
+
+
+
+    function updateBotonesCliente(sePuedeEditar){
+      if(sePuedeEditar){
+        BotonBuscarPorDNI.className = ""
+        BotonReiniciarCliente.className = "d-none";
+      }else{
+        BotonBuscarPorDNI.className = "d-none"
+        BotonReiniciarCliente.className = ""
+
+      }
+
+    }
 
     function setClientValid(isValid){
       if(isValid){
         IconoClientValid.className = ValidClientClass
         InputDNI.readOnly = true;
+        
       }else
         IconoClientValid.className = InvalidClientClass;
 
       isClientValid = isValid;
+      updateBotonesCliente(!isValid);
+
     }
 
 
@@ -547,14 +627,23 @@
       maracFetch(url,request,function(objetoRespuesta){
           alertaMensaje(objetoRespuesta.titulo,objetoRespuesta.mensaje,objetoRespuesta.tipoWarning);
           console.log(objetoRespuesta);
-          var dataRecibida = objetoRespuesta.datos;
-          var codUsuario = dataRecibida.codUsuario;
-          var nombresUsuario = dataRecibida.nombres + " " + dataRecibida.apellidos;
+          $(".loader").hide();
 
-          InputNombreCliente.value = nombresUsuario;
-          InputCodUsuarioComprador.value = codUsuario;
-          setClientValid(true);
+          if(objetoRespuesta.ok=='1'){
+
+            var dataRecibida = objetoRespuesta.datos;
+            var codUsuario = dataRecibida.codUsuario;
+            var nombresUsuario = dataRecibida.nombres + " " + dataRecibida.apellidos;
+
+            InputNombreCliente.value = nombresUsuario;
+            InputCodUsuarioComprador.value = codUsuario;
+            setClientValid(true);
+            
+          }else{
+            limpiarCamposCliente();
+          }
           BootstrapModalAgregarUsuario.hide();
+
 
       })
 
@@ -565,6 +654,16 @@
 @endsection
 @section('estilos')
 <style>
+  #contenedor_cliente{
+    padding: 7px;
+    background-color: rgb(241 241 241);
+    border-radius: 8px;
+  }
+  .msj-modal{
+    font-size: 10pt;
+    color:rgb(66, 66, 66);
+    padding: 5px;
+  }
   .clientIsValid{
     height: 30px;
     width: 30px;

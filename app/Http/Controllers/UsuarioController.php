@@ -143,6 +143,7 @@ class UsuarioController extends Controller
         $usuario->nombres=$personaEncontrada['nombres'];
         $usuario->apellidos=$personaEncontrada['apellidoPaterno']." ".$personaEncontrada['apellidoMaterno'];
         $usuario->codRol = 2;
+        $usuario->verificado = 0;
         $usuario->password =hash::make($dni); 
         $usuario->save();
 

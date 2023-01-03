@@ -15,6 +15,15 @@ class Funcion extends Model
     protected $primaryKey = "codFuncion";
     public $timestamps = false;  //para que no trabaje con los campos fecha 
  
+    function getTextoResumenHoy(){
+      return $this->getPelicula()->nombre. " " .$this->getHora();
+
+    }
+
+    function getDescripcion(){
+      return $this->getPelicula()->nombre. " " .$this->getFechaEscritaSinAño(). " ".$this->getHora();
+
+    }
 
     function getSala(){
       return Sala::findOrFail($this->codSala);

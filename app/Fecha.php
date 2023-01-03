@@ -65,7 +65,7 @@ class Fecha
     
 
     public static function formatoSoloHora($fecha){
-      return date('H:i a', strtotime($fecha));
+      return date('h:i a', strtotime($fecha));
     }
     public static function formatoSoloHora_hora($fecha){
       return date('H', strtotime($fecha));

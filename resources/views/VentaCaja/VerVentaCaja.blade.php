@@ -29,17 +29,22 @@
         <div class="card-body">
             <div class="col row">
 
-
-              <div class="col-8">
-                <label for="" id="">
-                  Cliente
-                </label>
-                <div class="d-flex">
-                  <input type="text" class="form-control mr-1" name="dni" id="dni" readonly placeholder="Buscar por DNI" value="{{$venta->getUsuarioComprador()->dni}}">
-                  <input type="text" class="form-control" id="nombre_cliente" placeholder="Nombre del cliente" value="{{$venta->getUsuarioComprador()->getNombreCompleto()}}" readonly>
-                  
+              @if(!$venta->esVentaAnonima())
+                    
+                <div class="col-8">
+                  <label for="" id="">
+                    Cliente
+                  </label>
+                  <div class="d-flex">
+                      
+                      <input type="text" class="form-control mr-1" name="dni" id="dni" readonly placeholder="Buscar por DNI" value="{{$venta->getUsuarioComprador()->dni}}">
+                      <input type="text" class="form-control" id="nombre_cliente" placeholder="Nombre del cliente" value="{{$venta->getUsuarioComprador()->getNombreCompleto()}}" readonly>
+                    
+                  </div>
                 </div>
-              </div>
+
+
+              @endif
               <div class="col-4">
                 <label for="" id="">
                   Cajero:

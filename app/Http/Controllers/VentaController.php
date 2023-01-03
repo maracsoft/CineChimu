@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Debug;
 use App\DetalleVenta;
+use App\Funcion;
 use App\Venta;
 use App\User;
 use App\Usuario;
@@ -21,7 +22,7 @@ class VentaController extends Controller
 
   /* Renders the view */
   public function ListarVentas(Request $request){
-    $listaVentas = Venta::paginate(50);
+    $listaVentas = Venta::orderBy('codVenta','desc')->paginate(50);
 
     return view('VentaCaja.ListarVentasCaja',compact('listaVentas'));
     
@@ -50,7 +51,10 @@ class VentaController extends Controller
     $metodosPago = MetodoPago::All();
     $usuarioCajero = Usuario::getLogeado();
     $listaProductos = Producto::All();
-    return view('VentaCaja.CrearVentaCaja',compact('metodosPago','usuarioCajero','listaProductos'));
+    $hoy = date("Y-m-d");
+    
+    $funcionesDeHoy = Funcion::where('fechaHoraFuncion','>',$hoy)->get();
+    return view('VentaCaja.CrearVentaCaja',compact('metodosPago','usuarioCajero','listaProductos','funcionesDeHoy'));
   }
 
 
@@ -95,17 +99,27 @@ class VentaController extends Controller
   public function GuardarVenta(Request $request){
     try {
       db::beginTransaction();
-
-
       $venta = new Venta();
       $venta->fechaHora = Carbon::now();
       $venta->codUsuarioCajero = Usuario::getLogeado()->getId();
-      $venta->codUsuarioComprador = $request->codUsuarioComprador; //en frontend se llama al servicio para crearle la cuenta al instante
+      
       $venta->montoTotal = 0; //por ahora
       $venta->codMetodo = $request->codMetodo;
       $venta->comentario = $request->comentario;
 
+      if($request->esVentaAnonima == 'on'){
+        $venta->codUsuarioComprador = null;
+        $venta->venta_anonima = 1;
+      }else{
+        $venta->codUsuarioComprador = $request->codUsuarioComprador;
+        $venta->venta_anonima = 0;
+      }
+      if($request->codFuncion=='-1')
+        $venta->codFuncion = null;
+      else
+        $venta->codFuncion = $request->codFuncion;
       $venta->save();
+      
       $detalles =  json_decode($request->detalles_json);
       
       $monto_total = 0;

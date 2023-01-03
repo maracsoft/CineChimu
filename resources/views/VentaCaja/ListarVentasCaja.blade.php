@@ -31,6 +31,9 @@
             <th>Id</th>
             <th>Comprador</th>
             <th>Fecha hora</th>
+            <th>
+              Función
+            </th>
             <th>Cajero</th>
             <th>Total</th>
 
@@ -45,10 +48,21 @@
               {{$venta->getId()}}
             </td>
             <td>
-              {{$venta->getUsuarioComprador()->getNombreCompleto()}}
+              @if(!$venta->esVentaAnonima())
+                {{$venta->getUsuarioComprador()->getNombreCompleto()}}
+  
+              @else
+                Venta Anónima
+              @endif
             </td>
             <td>
-              {{$venta->getFechaHora()}}
+              {{$venta->getFechaHoraEscrita()}}
+            </td>
+            <td>
+              @if($venta->tieneFuncion())
+                {{$venta->getFuncion()->getDescripcion()}}
+              @endif
+              
             </td>
             <td>
               {{$venta->getUsuarioCajero()->getNombreCompleto()}}

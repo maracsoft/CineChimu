@@ -13,7 +13,17 @@ class Venta extends Model
     protected $primaryKey = "codVenta";
     public $timestamps = false;  //para que no trabaje con los campos fecha 
   
+    public function tieneFuncion() : bool{
+      return $this->codFuncion != null;
+    }
+    public function getFuncion(){
+      return Funcion::findOrFail($this->codFuncion);
+    }
 
+    public function esVentaAnonima() : bool{
+      return $this->venta_anonima == '1';
+      
+    }
     public function getUsuarioComprador(){
       return Usuario::findOrFail($this->codUsuarioComprador);
     }
@@ -35,6 +45,12 @@ class Venta extends Model
     public function getFechaHora(){
       return Fecha::formatoFechaHoraParaVistas($this->fechaHora);
     }
+    public function getFechaHoraEscrita(){
+      return Fecha::formatoFechaHoraEscrita($this->fechaHora);
+    }
+
+
+    
 
     public function getTotal(){
       return number_format($this->montoTotal,2);
