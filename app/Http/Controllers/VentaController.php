@@ -34,7 +34,16 @@ class VentaController extends Controller
 
     return view('Ventas.EditarVenta',compact('venta'));
   }
+  
+  
+  /* Renders the view */
+  public function VerVenta($codVenta){
 
+    $venta = Venta::findOrFail($codVenta);
+
+    return view('VentaCaja.VerVentaCaja',compact('venta'));
+  }
+  
 
   /* Renders the view */
   public function CrearVenta(){

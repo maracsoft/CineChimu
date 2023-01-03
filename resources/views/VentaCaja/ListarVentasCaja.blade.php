@@ -57,6 +57,9 @@
               {{$venta->getTotal()}}
             </td>
             <td>
+              <a href="{{route('Ventas.Ver',$venta->getId())}}" class="btn btn-primary btn-xs">
+                <i class="fas fa-eye"></i>
+              </a>
               <a href="{{route("Ventas.Editar",$venta->getId())}}" class="btn btn-warning btn-xs btn-icon icon-left">
                 <i class="fas fa-edit"></i>
               </a>

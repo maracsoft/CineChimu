@@ -302,9 +302,7 @@
 
   var menuLateralOcultado = true;
 
-
-  clicMenuLateral();
-
+ 
   //YA FUNCIONA YA XD LE HABIA PUESTO TITLE AL icoono Y NO AL A REF
   function clicMenuLateral(){
     document.getElementById('iconoOcultarMenuLateral').classList="";

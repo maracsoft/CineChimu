@@ -108,6 +108,29 @@ function validarPositividadYNulidad(msjError,id,nombreReferencial){
 
     return msjError;
 }
+
+
+function validarEmail(msjError,id,nombreReferencial){
+    mensaje = "";
+
+    contenido = document.getElementById(id).value;
+    if (!validateEmail(contenido)){
+        ponerEnRojo(id);
+        mensaje = "El email " + nombreReferencial + " es inválido";
+    }
+
+    if(msjError!="") //significa que ya hay un error en el flujo de validaciones
+        return msjError; 
+    else //si no hay ningun error, retorna el mensaje generado en esta funcion (el cual será nulo si no hubo error)
+        return mensaje;
+}
+
+const validateEmail = (email) => {
+  return email.match(
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
+};
+
 function validarPositividad(msjError,id,nombreReferencial){
     mensaje ="";
 
@@ -322,6 +345,21 @@ function validarCodigoPresupuestal(msjError,id, codPresupProyecto,nombreReferenc
 
 }
 
+
+/* Esta es una función personalizada para hacer los request más facilmente con JS vanilla */
+function maracFetch(url,request,callback){
+
+    fetch( url , request).then(function (response) {
+        if(response.ok)
+            return response.json();
+        else
+            return Promise.reject(response);
+
+    }).then(function(data){
+        callback(data);
+    });
+
+}
 
 
 </script>

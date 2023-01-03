@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Configuracion;
+use App\LogeoHistorial;
 use App\PersonaReniec;
 use App\RespuestaAPI;
 use App\User;
 use App\Usuario;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -116,6 +118,42 @@ class UsuarioController extends Controller
       }
 
       return PersonaReniec::ConsultarAPISunatDNI($dni);
+    }
+
+    /* POST, crea una cuenta */
+    public function crearCuentaPorDefecto(Request $request){
+      try {
+        $email = $request->email;
+        $dni = $request->dni;
+
+        $personaEncontrada = PersonaReniec::ConsultarAPISunatDNI($dni);
+        if($personaEncontrada['ok'] != '1'){
+          $msjError = $personaEncontrada['mensaje'];
+          if(str_contains($msjError,'No se encon')){
+            return RespuestaAPI::respuestaDatosError("No se encontró a esta persona en RENIEC");
+          }
+
+          throw new Exception("Error al consultar el dni a Reniec: " . $personaEncontrada['mensaje']);
+        }
+        $personaEncontrada = $personaEncontrada['datos'];
+
+        $usuario = new Usuario();
+        $usuario->usuario=$email;
+        $usuario->dni=$dni;
+        $usuario->nombres=$personaEncontrada['nombres'];
+        $usuario->apellidos=$personaEncontrada['apellidoPaterno']." ".$personaEncontrada['apellidoMaterno'];
+        $usuario->codRol = 2;
+        $usuario->password =hash::make($dni); 
+        $usuario->save();
+
+        return RespuestaAPI::respuestaDatosOk("Se creó exitosamente la cuenta del usuario ".$usuario->nombres,$usuario);
+        
+        
+      } catch (\Throwable $th) {
+        throw $th;
+      }
+
+
     }
 
 

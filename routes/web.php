@@ -22,6 +22,9 @@ Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesi
 
 Route::get('/usuarios/consultarPorDNIYUsuario/{dni}','UsuarioController@consultarPorDNIYUsuario')->name('consultarPorDNIYUsuario');
 Route::get('/usuarios/verificarExistenciaUsuarioConDNI/{dni}','UsuarioController@verificarExistenciaUsuarioConDNI')->name('verificarExistenciaUsuarioConDNI');
+Route::post('/usuarios/crearCuentaPorDefecto','UsuarioController@crearCuentaPorDefecto')->name('usuarios.crearCuentaPorDefecto');
+
+
 
 Route::get('/probandoCosas',function(){
   $persona = new PersonaReniec(71208489);
@@ -117,6 +120,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
 
     Route::get('/Ventas/Crear','VentaController@CrearVenta')->name('Ventas.Crear');
     Route::get('/Ventas/{id}/Editar','VentaController@EditarVenta')->name('Ventas.Editar');
+    Route::get('/Ventas/{id}/Ver','VentaController@VerVenta')->name('Ventas.Ver');
     
     Route::post('/Ventas/Guardar','VentaController@GuardarVenta')->name('Ventas.Guardar');
     Route::post('/Ventas/Actualizar','VentaController@ActualizarVenta')->name('Ventas.Actualizar');
