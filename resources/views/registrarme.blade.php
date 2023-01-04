@@ -52,6 +52,15 @@
                   <div class="flex-grow">
                     <label for="user" class="label" style="font-size: medium">Nombre</label>
                     <input type="text" class="text-center nombreCompleto bloqued w-100" placeholder="Su nombre aparecerá aquí..." readonly id="nombreCompleto" name="nombreCompleto" value="">
+                    
+                    
+
+                  </div>
+                  <div class="ml-3 flex">
+                    <div class="my-auto">
+                      <img class="botonQueer mt-4" src="img/bandera-lgbt.png" id="botonQueer"  onclick="clickBotonQueer()" title="¿No te identificas con el nombre/género de tu DNI?"/>
+                    </div>
+                    
                   </div>
                   
                 </div>
@@ -191,10 +200,13 @@
     loader.classList.add('hidden')
   }
 
+  
 
-</script>
+  function clickBotonQueer(){
+    alertaMensaje("¿No te identificas con el nombre/género del DNI?","Puedes enviarnos un correo a cinechimu@gmail.com con los datos de este formulario y crearemos tu cuenta personalmente.",'info')
 
-<script>
+  }
+
   function alerta(msj){
       swal(//sweetalert
           {
@@ -235,4 +247,15 @@
   }
 
 </script>
+
+<style>
+   
+  .botonQueer{
+    width: 27px;
+    border-radius: 3px;
+    height: 18px;
+    cursor: pointer;
+  }
+
+</style>
 </html>

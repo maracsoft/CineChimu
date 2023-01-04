@@ -362,4 +362,22 @@ function maracFetch(url,request,callback){
 }
 
 
+
+
+
+
+
+/* 
+  No trasladar este codigo a Backend, algunas versiones de node no tienen el replaceAll, para eso se usa el replace con la regexp /g
+*/
+function hidrateHtmlString(html_string,object){
+  
+  for (let field_name in object){
+    html_string = html_string.replaceAll("[" + field_name +"]",object[field_name]);
+  }
+  return html_string;
+
+}
+
+
 </script>

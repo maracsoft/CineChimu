@@ -145,20 +145,18 @@
                     </option>                                 
                   @endforeach
                 </select>
-               {{--  <button class="btn btn-success ml-1" type="button" onclick="clickAñadirDetalle()">
-                  <i class="fas fa-plus"></i>
-                </button> --}}
+                
               </div>
               <div>
 
                               
-                <table class="table  table-sm my-2">
+                <table class="table table-bordered tabla-detalles table-sm my-2">
                   <thead class="thead-dark">
                     <tr>
                       <th>#</th>
                       <th>Producto</th>
-                      <th class="text-right">Precio Unitario</th>
-                      <th class="text-right">Cantidad</th>
+                      <th class="text-right">P. Unit</th>
+                      <th class="text-right">Cant</th>
                       <th class="text-right">Subtotal</th>
 
                       <th class="text-center">Opciones</th>
@@ -359,8 +357,64 @@
 
     }
     
-    
 
+
+
+    const PlantillaHtmlFilaDetalle = /* html */
+    `
+      <tr>               
+          <td>              
+              [IndiceMostrable]
+          </td>             
+          <td class="nombre-producto"> 
+              [NombreProducto]
+          </td>               
+          <td class="text-right numero">
+            S/ [PrecioVenta] 
+          </td>               
+          <td class="text-right numero">              
+            [Cantidad]
+          </td>              
+          <td class="text-right numero">          
+            S/ [Subtotal]
+          </td>              
+          <td class="text-center">              
+              <button type="button" class="btn btn-success btn-sm" onclick="aumentarCantidadDetalle([Index]);">
+                  <i class="fas fa-plus"></i>            
+              </button>        
+              <button type="button" class="btn btn-success  btn-sm" onclick="reducirCantidadDetalle([Index]);">
+                  <i class="fas fa-minus"></i>            
+              </button>   
+              <button type="button" class="btn btn-danger  btn-sm" onclick="eliminarDetalle([Index]);">
+                  <i class="fa fa-times" ></i>               
+              </button>         
+          </td>               
+      </tr>         
+    `;
+
+    const PlantillaHtmlTablaVacia = /* html */
+    `
+      <tr>               
+        <td colspan="6" class="text-center">              
+            No hay items en el carrito
+        </td>
+      </tr>
+    `;
+    const PlantillaHtmlFilaTotal = /* html */
+    `
+          <tr>                
+              <td colspan="4" class="nombre-producto text-right">              
+                  TOTAL:
+              </td>                        
+              <td  class="text-right numero">              
+                 S/ [TotalAcumulado]
+              </td>                        
+              
+              <td class="text-center">              
+                              
+              </td>               
+          </tr>         
+    `;
 
     const ContenedorDetalles = document.getElementById('detalles_json')
     const TablaDetalles = document.getElementById('tbody_detalles');
@@ -374,70 +428,30 @@
         var itemMasUno = index+1;
         var subTotal = detalle.producto.precioVenta * detalle.cantidad;
         total_acumulado+= subTotal;
-        var fila=      `
-                <tr>               
-                    <td>              
-                        `+itemMasUno+`
-                    </td>             
-                    <td class="nombre-producto"> 
-                        `+detalle.producto.nombre+`
-                    </td>               
-                    <td class="text-right numero">
-                      S/ 
-                      `+ detalle.producto.precioVenta.toFixed(2) + ` 
-                    </td>               
-                    <td class="text-right numero">              
-                      `+detalle.cantidad+`
-                    </td>              
-                    <td class="text-right numero">          
-                      S/     
-                      `+subTotal.toFixed(2)+`
-                    </td>              
-                    <td class="text-center">              
-                           
-                        <button type="button" class="btn btn-success " onclick="aumentarCantidadDetalle(`+index+`);">
-                            <i class="fas fa-plus"></i>            
-                        </button>        
-                        <button type="button" class="btn btn-success " onclick="reducirCantidadDetalle(`+index+`);">
-                            <i class="fas fa-minus"></i>            
-                        </button>   
-                        <button type="button" class="btn btn-danger " onclick="eliminarDetalle(`+index+`);">
-                            <i class="fa fa-times" ></i>               
-                        </button>         
-                        
-                    </td>               
-                </tr>         `;
-                
+
+        var objectToPrint = {
+          IndiceMostrable:itemMasUno,
+          NombreProducto:detalle.producto.nombre,
+          PrecioVenta:detalle.producto.precioVenta.toFixed(2),
+          Cantidad:detalle.cantidad,
+          Subtotal:subTotal.toFixed(2),
+          Index:index
+        }
+        fila = hidrateHtmlString(PlantillaHtmlFilaDetalle,objectToPrint);
         html_tabla+= fila;
 
       }
       if(listaDetalles.length == 0){
-        html_tabla = `
-                <tr>               
-                    <td colspan="6" class="text-center">              
-                        No hay items en el carrito
-                    </td>
-                    
-                `
+        html_tabla = PlantillaHtmlTablaVacia;
       }
 
-
-      var fila_total = `
-          <tr>                
-              <td colspan="4" class="nombre-producto text-right">              
-                  TOTAL:
-              </td>                        
-              <td  class="text-right numero">              
-                 S/ `+total_acumulado.toFixed(2)+`
-              </td>                        
-              
-              <td class="text-center">              
-                              
-              </td>               
-          </tr>         
-      `;
+      var fila_total = hidrateHtmlString(PlantillaHtmlFilaTotal,
+        {   
+          TotalAcumulado:total_acumulado.toFixed(2)
+        }
+      );
+      
       html_tabla += fila_total;
-
 
       ContenedorDetalles.value = JSON.stringify(listaDetalles);
       TablaDetalles.innerHTML = html_tabla
@@ -490,9 +504,7 @@
       
     }
     function eliminarDetalle(index){
-      console.log("eliminando detalle " + index);
-      console.log("antes",listaDetalles)
-
+      
       listaDetalles.splice(index,1);
       
       console.log("despues",listaDetalles)
@@ -674,6 +686,18 @@
   .color-green{
     color:green
   }
+
+  @media (max-width: 600px){/* mobile */
+    .tabla-detalles{
+      font-size: 12pt
+    }
+  }
+  @media (min-width: 600px){/* Bigger */
+    .tabla-detalles{
+      font-size: 14pt
+    }
+  }
+   
   
   .contenedor-detalles{
     background-color: rgb(241 241 241);
@@ -681,12 +705,10 @@
     
   }
   .contenedor-detalles .numero{
-    font-size: 16pt;
+    
     font-weight: 500;
   }
-  .contenedor-detalles .nombre-producto{
-    font-size: 14pt;
-  }
+  
   .poster-peli{
     background-color: rgb(172, 191, 255);
      

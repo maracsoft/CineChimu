@@ -2,7 +2,7 @@
 
 
 
-<div class="d-flex flex-column mx-3 text-right fontSize11">
+<div class="flex-column mx-3 text-right fontSize11  d-none d-sm-flex">
 
   <span class="mb--1 font-weight-bold" title="Nombre de usuario">
     {{$userLogeado->usuario}}
@@ -24,8 +24,11 @@
 
     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right ">
         
+          
          
-        <a href=" " class="dropdown-item">
+
+         
+        <a href="" class="dropdown-item">
           <div class="media" >
             <i class="fas fa-address-card"></i> &nbsp;
             
@@ -62,11 +65,6 @@
     </div>
 
 
-  </li> 
+</li> 
 
-
-  <script>
-    
-
-
-  </script>
+ 

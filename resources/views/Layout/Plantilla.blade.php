@@ -95,9 +95,7 @@
     }
   </style>
   <style>
-    .sideBar-chimu{
-       
-    }
+    
     .navbar{
       background-color: #ffffff
     } 
@@ -124,6 +122,14 @@
     .mb--1{
       margin-bottom: -6px;
     }
+
+    @media (max-width: 991.98px){
+      .sidebar-dark-primary{
+        display: none;
+      }
+    }
+
+    
   </style>
   @yield('estilos')
 
@@ -147,7 +153,7 @@
                 
      
     
-    <aside class="sideBar-chimu sidebar-dark-primary elevation-4">
+    <aside class="sidebar-dark-primary elevation-4">
        
       <a href="{{ route('user.home') }}" class="brand-link ml-2 mr-4">
         <img src="/img/CineChimu.png" alt="AdminLTE Logo" class="chimu-img img-circle elevation-3" style="opacity: .8">

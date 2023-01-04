@@ -18,5 +18,8 @@ class Producto extends Model
       return Usuario::findOrFail($this->codUsuarioCreador);
     }
 
+    public function getEstado(){
+      return EstadoProducto::findOrFail($this->codEstadoProducto);
+    }
     
 }
