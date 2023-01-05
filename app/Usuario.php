@@ -18,6 +18,14 @@ class Usuario extends Model
         'codCliente', 'email','password','fechaActualizacion','isAdmin'
     ];
 
+
+    public static function añadirNombreCompletoAColeccion($listaUsuarios){
+      foreach ($listaUsuarios as $usuario) {
+        $usuario['getNombreCompleto'] = $usuario->getNombreCompleto();
+      }
+      return $listaUsuarios;
+    }
+
     public static function getLogeado() : Usuario {
         return Usuario::findOrFail(Auth::id());
     }

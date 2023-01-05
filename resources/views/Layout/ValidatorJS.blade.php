@@ -203,6 +203,48 @@ function validarContenidosIguales(msjError,id1,id2,mensajeAMostrar){
         return mensaje;
 }
 
+
+function validarFechaAnterior(msjError,id_fechaAnterior,id_fechaPosterior,mensajeAMostrar){
+  mensaje = "";
+ 
+  var dateString1 = document.getElementById(id_fechaAnterior).value 
+  var dateString2 = document.getElementById(id_fechaPosterior).value
+  var fechasValidas = compararFechas(dateString1,dateString2);
+  if(!fechasValidas){
+    mensaje = mensajeAMostrar;
+    ponerEnRojo(id_fechaAnterior);
+    ponerEnRojo(id_fechaPosterior)
+  }
+ 
+
+
+  if(msjError!="") //significa que ya hay un error en el flujo de validaciones
+      return msjError; 
+  else //si no hay ningun error, retorna el mensaje generado en esta funcion (el cual será nulo si no hubo error)
+      return mensaje;
+
+
+}
+
+
+/* le entran 2 fechas en formato dd/mm/yyyy y sale boolean */
+function compararFechas(dateString1,dateString2){
+
+  var dateParts1 = dateString1.split("/");
+  var dateParts2 = dateString2.split("/");
+
+  var dateObject1 = new Date(dateParts1[2], dateParts1[1] - 1, dateParts1[0]); 
+  var dateObject2 = new Date(dateParts2[2], dateParts2[1] - 1, dateParts2[0]); 
+
+  
+  if(dateObject1.getTime() > dateObject2.getTime()){
+    return false; //
+  }
+
+  return true;
+
+}
+
 function validarTamañoMaximoYNulidad(msjError,id,tamañoMax,nombreReferencial){
     
     msjError = validarTamañoMaximo(msjError,id,tamañoMax,nombreReferencial);

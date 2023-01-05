@@ -10,7 +10,7 @@ use App\User;
 use App\Usuario;
 use App\MetodoPago;
 use App\Producto;
-
+use App\UI\UIFiltros;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,12 +19,30 @@ use Illuminate\Support\Facades\Storage;
 class VentaController extends Controller
 {
      
+  const PAGINATION = 50;
 
   /* Renders the view */
   public function ListarVentas(Request $request){
-    $listaVentas = Venta::orderBy('codVenta','desc')->paginate(50);
+    
 
-    return view('VentaCaja.ListarVentasCaja',compact('listaVentas'));
+    $listaVentas = Venta::where('codVenta','>',0);
+    
+    $filtros_usados_paginacion = UIFiltros::getFiltersCompleteArray($listaVentas,$request->getQueryString());
+    dd($request);
+    /* BUG QUE REMPLAZA EL . POR _ EN LA URI */
+    $listaVentas = UIFiltros::buildQuery($listaVentas,$request->getQueryString());
+    $filtros_usados = UIFiltros::getQueryValues($listaVentas,$request->getQueryString());
+    
+
+
+    $listaVentas = $listaVentas->paginate($this::PAGINATION);
+
+    $listaFunciones = Funcion::añadirDescripcionAColeccion(Funcion::All());
+    $listaUsuarios = Usuario::añadirNombreCompletoAColeccion(Usuario::All());
+    $listaMetodosPago = MetodoPago::All();
+
+   
+    return view('VentaCaja.ListarVentasCaja',compact('listaVentas','filtros_usados','listaFunciones','listaUsuarios','listaMetodosPago','filtros_usados_paginacion'));
     
   }
   

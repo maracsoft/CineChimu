@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Cliente;
 use Carbon\Carbon;
 use DateTime;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 class Funcion extends Model
 {
@@ -14,7 +15,17 @@ class Funcion extends Model
     protected $table = "funcion";
     protected $primaryKey = "codFuncion";
     public $timestamps = false;  //para que no trabaje con los campos fecha 
- 
+
+
+    public static function añadirDescripcionAColeccion(Collection $listaFunciones){
+      foreach ($listaFunciones as $funcion) {
+        $funcion['getDescripcion'] = $funcion->getDescripcion();
+      }
+      return $listaFunciones;
+
+    }
+
+
     function getTextoResumenHoy(){
       return $this->getPelicula()->nombre. " " .$this->getHora();
 
