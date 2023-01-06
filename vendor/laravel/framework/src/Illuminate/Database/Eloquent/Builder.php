@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\ForwardsCalls;
 use ReflectionClass;
@@ -77,6 +78,33 @@ class Builder
         'insert', 'insertOrIgnore', 'insertGetId', 'insertUsing', 'getBindings', 'toSql', 'dump', 'dd',
         'exists', 'doesntExist', 'count', 'min', 'max', 'avg', 'average', 'sum', 'getConnection', 'raw', 'getGrammar',
     ];
+
+    public function getTableName(){
+      return $this->model->table;
+    }
+    public function getTableColumns(){
+      $tablename = $this->getTableName();
+      $rows = DB::select("SHOW COLUMNS FROM `$tablename`");
+      $array = [];
+      foreach($rows as $row){
+        //error_log($row->Field);
+        $array[] = $row->Field;
+      }
+      return $array;
+    }
+    
+    /* Se le manda un nombre de una columna y verifica si es o no */
+    public function isThisAColumn($column_name){
+      $columnas_existentes = $this->getTableColumns();
+      error_log("Verificando si $column_name está dentro de ".$this->getTableName());
+      if(in_array($column_name,$columnas_existentes,true)){
+        error_log("SÍ ESTÁ");
+        return true;
+      }
+      error_log("NO ESTÁ");
+      return false;
+    }
+
 
     /**
      * Applied global scopes.

@@ -157,6 +157,15 @@ abstract class Model implements Arrayable, ArrayAccess, Jsonable, JsonSerializab
      */
     const UPDATED_AT = 'updated_at';
 
+    
+    /* ESTO LO ESTOY AÑADIENDO YOOOO XD */
+    public function getID(){
+      return $this[$this->getKeyName()];
+    }
+  
+
+
+
     /**
      * Create a new Eloquent model instance.
      *
@@ -203,16 +212,6 @@ abstract class Model implements Arrayable, ArrayAccess, Jsonable, JsonSerializab
     {
         //
     }
-
-
-    /* ESTO LO ESTOY AÑADIENDO YOOOO XD */
-    public function getID(){
-      return $this[$this->getKeyName()];
-    }
-
-
-
-
 
     /**
      * Bootstrap the model and its traits.
